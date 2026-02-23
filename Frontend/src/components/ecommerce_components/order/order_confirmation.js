@@ -80,11 +80,13 @@ export default function OrderConfirmation(orderData = null) {
       }
 
       if (order) {
-        // Update order number with actual order ID
+        // Update order number with actual order ID and user sequence
         const orderNumberElement = document.getElementById('orderNumber');
         if (orderNumberElement) {
           if (order.order_id) {
-            orderNumberElement.textContent = `#BINI-${order.order_id}`;
+            // Get user's order sequence to show more meaningful order number
+            const userOrderSequence = await getUserOrderSequence(order.order_id);
+            orderNumberElement.textContent = `#BINI-${order.order_id} (Your Order #${userOrderSequence})`;
           } else if (order.id) {
             orderNumberElement.textContent = order.id;
           } else {
@@ -102,6 +104,31 @@ export default function OrderConfirmation(orderData = null) {
       console.error('Error loading order data:', error);
       displayDemoOrder();
     }
+  }
+
+  // Get the user's order sequence number (1st, 2nd, 3rd order, etc.)
+  async function getUserOrderSequence(currentOrderId) {
+    try {
+      const response = await fetch(api('/orders/user'), {
+        method: 'GET',
+        headers: authHeaders()
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        const orders = result.orders || result.data || result;
+        
+        if (Array.isArray(orders)) {
+          // Sort orders by ID to find the sequence
+          const sortedOrders = orders.sort((a, b) => (a.order_id || a.id) - (b.order_id || b.id));
+          const sequence = sortedOrders.findIndex(order => (order.order_id || order.id) === currentOrderId) + 1;
+          return sequence > 0 ? sequence : 1;
+        }
+      }
+    } catch (error) {
+      console.error('Error getting user order sequence:', error);
+    }
+    return 1; // Default to 1 if we can't determine the sequence
   }
 
   function displayOrderSummary(order) {

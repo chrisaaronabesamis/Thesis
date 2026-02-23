@@ -12,6 +12,9 @@ export default function OrderHistory() {
         <div class="order-history-header">
           <div class="header-title">
             <div>
+              <button class="btn btn-outline order-back" onclick="window.location.href='http://localhost:5173/'">
+                <i class="fas fa-arrow-left"></i> Back
+              </button>
               <h1>Order History</h1>
               <p class="order-count" id="orderCount">Loading your orders...</p>
             </div>
@@ -128,6 +131,9 @@ export default function OrderHistory() {
       // Handle different response formats
       const orders = result.orders || result.data || result;
       allOrders = Array.isArray(orders) ? orders : [];
+      
+      // Add user sequence numbers to orders
+      allOrders = addUserSequenceNumbers(allOrders);
       filteredOrders = [...allOrders];
       
       updateStats();
@@ -140,6 +146,16 @@ export default function OrderHistory() {
       updateStats();
       displayOrders();
     }
+  }
+
+  // Add user sequence numbers to orders (1st, 2nd, 3rd, etc.)
+  function addUserSequenceNumbers(orders) {
+    const sortedOrders = [...orders].sort((a, b) => (a.order_id || a.id) - (b.order_id || b.id));
+    const ordersWithSequence = sortedOrders.map((order, index) => ({
+      ...order,
+      userSequence: index + 1
+    }));
+    return ordersWithSequence;
   }
 
   function updateStats() {
@@ -190,7 +206,7 @@ export default function OrderHistory() {
       return `
         <tr class="order-row" onclick="toggleOrderDetails('${order.order_id || order.id}')">
           <td>
-            <a href="#" class="order-link">#${order.order_id || order.id}</a>
+            <a href="#" class="order-link">${order.userSequence}</a>
           </td>
           <td>
             <div class="order-date">
@@ -217,36 +233,16 @@ export default function OrderHistory() {
           </td>
           <td class="order-total">₱${(order.total || order.total_amount || 0).toLocaleString()}</td>
           <td>
-            <div class="dropdown">
-              <button class="btn btn-sm btn-outline dropdown-toggle" onclick="event.stopPropagation(); toggleDropdown(event, '${order.order_id || order.id}')">
-                <i class="fas fa-ellipsis-v"></i>
-              </button>
-              <div class="dropdown-menu" id="dropdown-${order.order_id || order.id}">
-                <a href="#" onclick="event.stopPropagation(); viewOrderDetails('${order.order_id || order.id}')">
-                  <i class="fas fa-eye"></i> View Details
-                </a>
-                <a href="#" onclick="event.stopPropagation(); reorderOrder('${order.order_id || order.id}')">
-                  <i class="fas fa-redo"></i> Reorder
-                </a>
-                ${order.status === 'Order Placed' || order.status === 'pending' ? 
-                  `<a href="#" onclick="event.stopPropagation(); cancelOrder('${order.order_id || order.id}')" style="color: #dc3545;">
-                    <i class="fas fa-times"></i> Cancel Order
-                  </a>` : ''}
-                <a href="#" onclick="event.stopPropagation(); trackOrder('${order.order_id || order.id}')">
-                  <i class="fas fa-truck"></i> Track Order
-                </a>
-                <a href="#" onclick="event.stopPropagation(); downloadInvoice('${order.order_id || order.id}')">
-                  <i class="fas fa-download"></i> Download Invoice
-                </a>
-              </div>
-            </div>
+            <button class="btn btn-sm btn-outline dropdown-toggle" onclick="event.stopPropagation(); toggleDropdown(event, '${order.order_id || order.id}')">
+              <i class="fas fa-ellipsis-v"></i>
+            </button>
           </td>
         </tr>
         <tr class="order-details-row" id="details-${order.order_id || order.id}" style="display: none;">
           <td colspan="6">
             <div class="order-details-card">
               <div class="details-header">
-                <h4>Order #${order.order_id || order.id} Details</h4>
+                <h4>(Order Details) Your Order #${order.userSequence}</h4>
                 <button class="btn btn-sm btn-outline" onclick="toggleOrderDetails('${order.order_id || order.id}')">
                   <i class="fas fa-times"></i> Close
                 </button>
@@ -314,7 +310,7 @@ export default function OrderHistory() {
           <div class="order-card-header">
             <div class="order-card-title">
               <div>
-                <div class="order-number">Order #${order.order_id || order.id}</div>
+                <div class="order-number">Order #BINI-${order.order_id || order.id} (Your Order #${order.userSequence})</div>
                 <div class="order-date">${orderDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
               </div>
             </div>
@@ -472,41 +468,247 @@ export default function OrderHistory() {
 
   window.toggleDropdown = (event, orderId) => {
     event.stopPropagation();
-    console.log('Toggling dropdown for order:', orderId);
-    const dropdown = document.getElementById(`dropdown-${orderId}`);
-    console.log('Dropdown element:', dropdown);
+    console.log('toggleDropdown called for orderId:', orderId);
+    const button = event.currentTarget;
+    console.log('Button element:', button);
     
-    if (!dropdown) {
-      console.error('Dropdown not found for order:', orderId);
+    // Check if this dropdown is already open
+    const existingDropdown = document.getElementById(`dropdown-${orderId}`);
+    if (existingDropdown) {
+      // Close this dropdown with animation if it's already open
+      closeDropdown(existingDropdown);
       return;
     }
     
-    // Close all other dropdowns
-    document.querySelectorAll('.dropdown-menu').forEach(menu => {
-      if (menu !== dropdown) {
-        menu.parentElement.classList.remove('active');
-        menu.style.display = 'none';
+    // Remove any other existing dropdowns with animation
+    const existingDropdowns = document.querySelectorAll('.dropdown-menu.show');
+    existingDropdowns.forEach(dropdown => closeDropdown(dropdown));
+    
+    // Get the order data
+    const order = allOrders.find(o => (o.order_id || o.id) === orderId);
+    if (!order) {
+      console.log('Order not found for orderId:', orderId);
+      return;
+    }
+    console.log('Order found:', order);
+    
+    // Create dropdown menu
+    const dropdownMenu = document.createElement('div');
+    dropdownMenu.className = 'dropdown-menu';
+    dropdownMenu.id = `dropdown-${orderId}`;
+    dropdownMenu.setAttribute('role', 'menu');
+    dropdownMenu.setAttribute('aria-labelledby', `dropdown-toggle-${orderId}`);
+    
+    // Add menu items with proper accessibility attributes
+    const menuItems = [
+      {
+        icon: 'fas fa-eye',
+        text: 'View Details',
+        action: `viewOrderDetails('${orderId}')`,
+        role: 'menuitem'
+      },
+      {
+        icon: 'fas fa-redo',
+        text: 'Reorder',
+        action: `reorderOrder('${orderId}')`,
+        role: 'menuitem'
+      },
+      ...(order.status === 'Order Placed' || order.status === 'pending' ? [{
+        icon: 'fas fa-times',
+        text: 'Cancel Order',
+        action: `cancelOrder('${orderId}')`,
+        role: 'menuitem',
+        className: 'danger-item'
+      }] : []),
+      {
+        icon: 'fas fa-truck',
+        text: 'Track Order',
+        action: `trackOrder('${orderId}')`,
+        role: 'menuitem'
+      },
+      {
+        icon: 'fas fa-download',
+        text: 'Download Invoice',
+        action: `downloadInvoice('${orderId}')`,
+        role: 'menuitem'
       }
+    ];
+    
+    dropdownMenu.innerHTML = menuItems.map(item => `
+      <a href="#" 
+         onclick="event.stopPropagation(); event.preventDefault(); ${item.action}"
+         role="${item.role}"
+         class="dropdown-item ${item.className || ''}"
+         tabindex="-1">
+        <i class="${item.icon}"></i>
+        <span>${item.text}</span>
+      </a>
+    `).join('');
+    
+    // Append dropdown to body to escape overflow containers
+    document.body.appendChild(dropdownMenu);
+    console.log('Dropdown appended to body:', dropdownMenu);
+    
+    // Position the dropdown with enhanced logic
+    positionDropdown(dropdownMenu, button);
+    
+    // Add button ID for accessibility
+    button.id = `dropdown-toggle-${orderId}`;
+    button.setAttribute('aria-haspopup', 'true');
+    button.setAttribute('aria-expanded', 'true');
+    
+    // Show dropdown with animation
+    requestAnimationFrame(() => {
+      dropdownMenu.classList.add('show');
     });
     
-    // Toggle current dropdown
-    const isActive = dropdown.parentElement.classList.toggle('active');
-    console.log('Dropdown active state:', isActive);
-    
-    // Force display style based on active state
-    if (isActive) {
-      dropdown.style.display = 'block';
-      console.log('Forcing dropdown to show with display:block');
-    } else {
-      dropdown.style.display = 'none';
-      console.log('Hiding dropdown with display:none');
+    // Focus first menu item for keyboard navigation
+    const firstMenuItem = dropdownMenu.querySelector('.dropdown-item');
+    if (firstMenuItem) {
+      firstMenuItem.focus();
     }
+    
+    console.log('Dropdown created and positioned:', { orderId });
   };
 
+  // Enhanced dropdown positioning function
+  function positionDropdown(dropdown, button) {
+    const buttonRect = button.getBoundingClientRect();
+    const dropdownWidth = 200; // Increased width for better spacing
+    const dropdownHeight = dropdown.offsetHeight;
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const scrollTop = window.scrollY;
+    const scrollLeft = window.scrollX;
+    
+    // Calculate initial position
+    let left = buttonRect.right + scrollLeft - dropdownWidth;
+    let top = buttonRect.bottom + scrollTop + 5;
+    
+    // Check if dropdown would go off the right side of viewport
+    if (left + dropdownWidth > viewportWidth + scrollLeft - 10) {
+      left = buttonRect.left + scrollLeft - dropdownWidth + buttonRect.width;
+    }
+    
+    // Check if dropdown would go off the left side of viewport
+    if (left < scrollLeft + 10) {
+      left = scrollLeft + 10;
+    }
+    
+    // Check if dropdown would go off the bottom of viewport
+    if (top + dropdownHeight > viewportHeight + scrollTop - 10) {
+      // Position above the button instead
+      top = buttonRect.top + scrollTop - dropdownHeight - 5;
+    }
+    
+    // Ensure minimum distance from edges
+    left = Math.max(scrollLeft + 10, Math.min(left, viewportWidth + scrollLeft - dropdownWidth - 10));
+    top = Math.max(scrollTop + 10, Math.min(top, viewportHeight + scrollTop - dropdownHeight - 10));
+    
+    // Apply positioning
+    dropdown.style.position = 'fixed';
+    dropdown.style.top = `${top}px`;
+    dropdown.style.left = `${left}px`;
+    dropdown.style.zIndex = '10000';
+    dropdown.style.minWidth = `${dropdownWidth}px`;
+    dropdown.style.maxWidth = `${dropdownWidth}px`;
+  }
+  
+  // Enhanced dropdown closing function with animation
+  function closeDropdown(dropdown) {
+    if (!dropdown) return;
+    
+    // Update button aria attributes
+    const buttonId = dropdown.id.replace('dropdown-', 'dropdown-toggle-');
+    const button = document.getElementById(buttonId);
+    if (button) {
+      button.setAttribute('aria-expanded', 'false');
+    }
+    
+    // Add closing animation
+    dropdown.classList.add('closing');
+    
+    // Remove after animation completes
+    setTimeout(() => {
+      if (dropdown.parentNode) {
+        dropdown.remove();
+      }
+    }, 150); // Match CSS animation duration
+  }
+  
   // Close dropdowns when clicking outside
-  document.addEventListener('click', () => {
-    document.querySelectorAll('.dropdown').forEach(dropdown => {
-      dropdown.classList.remove('active');
+  document.addEventListener('click', (event) => {
+    if (!event.target.closest('.dropdown-toggle') && !event.target.closest('.dropdown-menu')) {
+      const dropdowns = document.querySelectorAll('.dropdown-menu.show');
+      dropdowns.forEach(dropdown => closeDropdown(dropdown));
+    }
+  });
+  
+  // Enhanced keyboard navigation for dropdowns
+  document.addEventListener('keydown', (event) => {
+    const activeDropdown = document.querySelector('.dropdown-menu.show');
+    if (!activeDropdown) {
+      if (event.key === 'Escape') {
+        const dropdowns = document.querySelectorAll('.dropdown-menu.show');
+        dropdowns.forEach(dropdown => closeDropdown(dropdown));
+      }
+      return;
+    }
+    
+    const menuItems = Array.from(activeDropdown.querySelectorAll('.dropdown-item'));
+    const currentIndex = menuItems.findIndex(item => item === document.activeElement);
+    
+    switch (event.key) {
+      case 'Escape':
+        closeDropdown(activeDropdown);
+        // Return focus to the toggle button
+        const buttonId = activeDropdown.id.replace('dropdown-', 'dropdown-toggle-');
+        const button = document.getElementById(buttonId);
+        if (button) {
+          button.focus();
+        }
+        break;
+      case 'ArrowDown':
+        event.preventDefault();
+        const nextIndex = (currentIndex + 1) % menuItems.length;
+        menuItems[nextIndex].focus();
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        const prevIndex = currentIndex === -1 ? menuItems.length - 1 : (currentIndex - 1 + menuItems.length) % menuItems.length;
+        menuItems[prevIndex].focus();
+        break;
+      case 'Home':
+        event.preventDefault();
+        if (menuItems.length > 0) {
+          menuItems[0].focus();
+        }
+        break;
+      case 'End':
+        event.preventDefault();
+        if (menuItems.length > 0) {
+          menuItems[menuItems.length - 1].focus();
+        }
+        break;
+      case 'Enter':
+      case ' ':
+        event.preventDefault();
+        if (document.activeElement.classList.contains('dropdown-item')) {
+          document.activeElement.click();
+        }
+        break;
+    }
+  });
+  
+  // Handle window resize to reposition dropdowns
+  window.addEventListener('resize', () => {
+    const dropdowns = document.querySelectorAll('.dropdown-menu.show');
+    dropdowns.forEach(dropdown => {
+      const orderId = dropdown.id.replace('dropdown-', '');
+      const button = document.getElementById(`dropdown-toggle-${orderId}`);
+      if (button) {
+        positionDropdown(dropdown, button);
+      }
     });
   });
 
@@ -622,18 +824,4 @@ export default function OrderHistory() {
 
   // Initialize the page
   fetchOrderHistory();
-  
-  // Temporary test: Show first dropdown after 2 seconds
-  setTimeout(() => {
-    const firstDropdown = document.querySelector('.dropdown-menu');
-    if (firstDropdown) {
-      console.log('Found dropdown menu, showing temporarily for testing');
-      firstDropdown.style.display = 'block';
-      setTimeout(() => {
-        firstDropdown.style.display = 'none';
-      }, 3000);
-    } else {
-      console.log('No dropdown menus found');
-    }
-  }, 2000);
 }

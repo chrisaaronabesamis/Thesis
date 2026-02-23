@@ -12,8 +12,7 @@ export default async function PaymentForm(root) {
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>&nbsp;</label>
-                        <button id="paymentNextBtn" type="button">Next</button>
+                        <button class="btn-next" id="paymentNextBtn" type="button">Next</button>
                     </div>
                 </div>
             </form>

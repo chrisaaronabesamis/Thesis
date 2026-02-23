@@ -10,6 +10,7 @@ export default function Navigation(root) {
       <img src="/BINI_logo.svg.png" alt="BINI Logo">
     </a>
     <nav id="navMenu">
+      <button class="nav-close-btn" aria-label="Close navigation">✕</button>
       <a href="/" class="nav-link active">Home</a>
       <a href="#about" class="nav-link">About</a>
       <a href="#music" class="nav-link">Music</a>
@@ -34,11 +35,18 @@ export default function Navigation(root) {
   const menuToggle = root.querySelector('#menuToggle');
   const navMenu = root.querySelector('#navMenu');
   const navLinks = navMenu ? Array.from(navMenu.querySelectorAll('a')) : [];
+  const navCloseBtn = root.querySelector('.nav-close-btn');
 
   menuToggle?.addEventListener('click', () => {
     if (!navMenu) return;
     navMenu.classList.toggle('active');
     menuToggle.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+  });
+
+  navCloseBtn?.addEventListener('click', () => {
+    if (!navMenu) return;
+    navMenu.classList.remove('active');
+    if (menuToggle) menuToggle.textContent = '☰';
   });
 
   navLinks.forEach(link => {
