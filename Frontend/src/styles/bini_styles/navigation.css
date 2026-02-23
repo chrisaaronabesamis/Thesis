@@ -1,0 +1,239 @@
+/* Navigation Buttons */
+.nav-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.nav-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-button .material-icons {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.nav-button.active .material-icons {
+  color: #EB4CBB;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 10rem;
+  min-width: 10rem;
+  max-width: 10rem;
+  background-color: #D9D9D9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1vh 0;
+  box-shadow: 0.125rem 0 0.625rem rgba(0,0,0,0.1);
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+  justify-content: space-between;
+}
+
+/* Bottom Navigation */
+.bottom-nav,
+.bottom-nav-search {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 150px;
+  height: 100vh;
+  background: linear-gradient(to bottom, #ADD8E6, #FFB6C1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 0;
+  z-index: 100;
+}
+
+/* Navigation Links */
+.bottom-nav a,
+.bottom-nav-search a {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #000;
+  text-decoration: none;
+}
+
+.nav-item,
+.nav-item-search {
+  color: #000;
+  text-decoration: none;
+}
+
+/* Navigation Components */
+.nav-logo {
+  margin: 1vh 0;
+  padding: 0.5vh 0;
+}
+
+.nav-logo-img {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+  border: 3px solid #fff;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  justify-content: flex-start;
+  gap: 1.5vh;
+  width: 100%;
+  padding: 1vh 0;
+  margin-top: 1vh;
+}
+
+.nav-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin: 5px 0;
+}
+
+.nav-logout {
+  margin: 0;
+  padding: 1vh 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  margin-top: auto;
+  margin-bottom: 1vh;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .sidebar {
+    padding: 1.5vh 0;
+  }
+  
+  .nav-logo {
+    margin: 1.5vh 0;
+    padding: 0.9vh 0;
+  }
+  
+  .nav-logo-img {
+    width: 70px;
+    height: 74px;
+    margin-bottom: 2vh;
+  }
+  
+  .nav-links {
+    gap: 2vh;
+    padding: 1.5vh 0;
+  }
+  
+  .nav-icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .bottom-nav a,
+  .bottom-nav-search a {
+    margin: 0.8vh 0;
+  }
+  
+  .nav-logout {
+    padding: 5vh 0;
+  }
+}
+
+/* Tablet Styles (768px and below) */
+@media (max-width: 768px) {
+  .bottom-nav,
+  .bottom-nav-search {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    top: auto;
+    width: 100%;
+    height: auto;
+    min-height: 60px;
+    background: linear-gradient(to bottom, #ADD8E6, #FFB6C1);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  }
+  
+  .nav-logo {
+    display: none; /* Hide logo on mobile */
+  }
+  
+  .nav-links {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    gap: 0;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+  }
+  
+  .nav-logout {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    border-top: none;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  
+  .bottom-nav a,
+  .bottom-nav-search a {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .nav-icon {
+    width: 24px;
+    height: 24px;
+    margin: 0;
+  }
+  
+  /* Add padding to main content to account for bottom nav */
+  #main {
+    padding-bottom: 80px;
+  }
+  
+  .nav-text {
+    display: none; /* Hide text labels on tablet */
+  }
+}
+

@@ -1,0 +1,128 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 30px;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+.navbar .logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ff70b8;
+  text-decoration: none;
+}
+
+.navbar .logo img {
+  height: 40px;
+  width: auto;
+  border-radius: 4px;
+}
+.navbar nav a {
+  color: #000000;
+  font-weight: 600;
+  margin: 0 10px;
+  text-decoration: none;
+  border: none;
+  border-left: none;
+  border-right: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.navbar nav a:hover {
+  background: linear-gradient(135deg, #ff70b8, #ff3d8b);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 112, 184, 0.3);
+}
+
+.navbar nav a:hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+  left: 100%;
+}
+
+.navbar nav a:focus,
+.navbar nav a:focus-visible,
+.navbar nav a:active,
+.navbar nav a.active {
+  background: transparent;
+  color: #000000;
+  outline: none;
+  box-shadow: none;
+}
+
+.navbar:hover {
+  background: #ffffff;
+}
+
+#navMenu {
+  display: flex;
+  align-items: center;
+}
+
+
+.navbar .nav-right a {
+  margin-left: 10px;
+  font-size: 1.2rem;
+  text-decoration: none;
+  outline: none;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.navbar .nav-right a:hover {
+  background: linear-gradient(135deg, #ff70b8, #ff3d8b);
+  transform: translateY(-2px) scale(1.1);
+  box-shadow: 0 4px 12px rgba(255, 112, 184, 0.3);
+}
+.navbar .menu-toggle {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #000000;
+}
+@media (max-width: 768px) {
+  .navbar .menu-toggle {
+    display: block;
+  }
+  #navMenu {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 200px;
+    background: #ffffff;
+    flex-direction: column;
+    display: none;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 0 12px 12px 0;
+  }
+  #navMenu.active {
+    display: flex;
+  }
+  .nav-link.active {
+    outline: none;
+  }
+}

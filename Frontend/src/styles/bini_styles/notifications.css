@@ -1,0 +1,299 @@
+/* Notifications page specific styles */
+#main-container {
+  margin: 0 auto;
+  background: linear-gradient(to bottom, #ADD8E6, #FFB6C1);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  box-sizing: border-box;
+
+}
+
+/* Override homepage-right hiding for notifications page */
+#main-container .homepage-right {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  overflow: visible !important;
+  position: static !important;
+  background: transparent !important;
+}
+
+.notif-header {
+  font-size: 32px;
+  font-weight: bold;
+  color: #39BDFE;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  right: 16px;
+  text-shadow: 2px 2px 8px rgba(235, 76, 187, 0.4), 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Notification header */
+.notif-header {
+  text-align: center;
+  padding: 1.5rem 0;
+  margin: 1rem auto 2rem auto;
+  width: 100%;
+  max-width: 800px;
+  position: relative;
+}
+
+/* Main notifications panel */
+.notifications-panel {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(235, 76, 187, 0.15), 0 4px 16px rgba(0,0,0,0.1);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  width: 90%;
+  max-width: 800px;
+  margin:0 0rem 2rem 14rem;
+  border: 2px solid #EB4CBB;
+  backdrop-filter: blur(10px);
+  
+  /* Scroll properties */
+  overflow-y: auto;
+  max-height: 70vh;
+  
+  /* Minimal scrollbar */
+  scrollbar-width: thin;
+}
+
+.notifications-panel::-webkit-scrollbar {
+  width: 4px;
+}
+
+.notifications-panel::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 2px;
+}
+
+.notifications-panel::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* Individual notification items */
+.notification-panel {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  background: white;
+  border-radius: 12px;
+  margin-bottom: 0.75rem;
+}
+
+.notification-panel:hover {
+  background: rgba(255, 182, 193, 0.1);
+  transform: translateX(5px);
+}
+
+/* Notification content */
+.notification-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.notification-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ADD8E6, #FFB6C1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.notification-text {
+  flex: 1;
+}
+
+.notification-title {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.notification-time {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.notification-action {
+  margin-left: auto;
+}
+
+.notification-btn {
+  background: #EB4CBB;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.notification-btn:hover {
+  background: #d43caa;
+  transform: scale(1.05);
+}
+
+/* Empty state */
+.notifications-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #666;
+}
+
+/* btn-primary class for consistency across the app */
+.btn-primary {
+  padding: 12px 35px;
+  border-radius: 30px;
+  border: none;
+  background-color: #e75480;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  min-width: 110px;
+  height: 50px;
+}
+
+.btn-primary:hover {
+  background-color: #d64672;
+  box-shadow: 0 4px 12px rgba(231,84,128,0.3);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* ===== RESPONSIVE MEDIA QUERIES ===== */
+
+/* Small devices (phones) */
+@media (max-width: 480px) {
+  #main-container {
+    padding: 0.5rem;
+  }
+  .notif-title {
+    transform: none;
+    font-size:100%;
+  }
+
+  .notifications-panel {
+    width: 95%;
+    padding: 1.25rem;
+    border-radius: 16px;
+    margin: 1rem auto;
+  }
+
+  .notification-panel {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .notification-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .notification-action {
+    margin-left: 0;
+    margin-top: 0.75rem;
+    width: 100%;
+  }
+
+  .notification-btn {
+    width: 100%;
+  }
+
+  .notif-header {
+    margin: 0.5rem auto 1.5rem auto;
+  }
+  .notif-item {
+    font-size: 0.9rem;
+  }
+
+  .btn-primary {
+    padding: 8px 20px;
+    font-size: 14px;
+    min-width: 90px;
+    height: 40px;
+  }
+}
+
+/* Medium devices (tablets) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .notifications-panel {
+    width: 85%;
+    padding: 2rem;
+    margin: 2rem;
+  }
+
+  .notification-panel {
+    padding: 1.5rem;
+  }
+
+  .notif-header {
+    margin: 1rem auto 2rem auto;
+  }
+}
+
+/* Large devices (desktops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .notifications-panel {
+    width: 55%;
+    max-width: 700px;
+    margin: 0 0 0 10rem;
+  }
+}
+
+/* Extra large devices */
+@media (min-width: 1025px) and (max-width: 1500px) {
+  .notifications-panel {
+      width: 52%;
+      margin-left: 15rem;
+  }
+}
+
+/* Keep your existing threads styles, they're already responsive */
+.threads-sidebar {
+  width: 100%;
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+/* Threads responsive adjustments */
+@media (max-width: 768px) {
+  .threads-sidebar {
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+  }
+  
+  .thread-item {
+    padding: 1rem;
+  }
+}

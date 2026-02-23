@@ -1,0 +1,53 @@
+.announcement-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 36px 16px;
+  text-align: center;
+}
+
+.announcement-box {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 30px;
+  border-radius: 12px;
+  margin: 0 auto 20px;
+  width: 90%;
+  max-width: 1200px;
+  text-align: center;
+  color: #000000;
+}
+.announcement-box p,
+.announcement-box ul {
+  color: #000000;
+}
+.announcement-pics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+.announcement-pics .card {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 8px;
+  border-radius: 12px;
+  text-align: center;
+  width: 45%;
+  max-width: 300px;
+}
+.announcement-pics img {
+  width: 100%;
+  border-radius: 10px;
+}
+.see-details-center {
+  margin-top: 15px;
+  text-align: center;
+}
+.btn-see-details {
+  background: #ff70b8;
+  color: #ffffff;
+  padding: 10px 25px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+}

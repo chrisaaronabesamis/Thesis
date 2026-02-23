@@ -1,0 +1,1760 @@
+/* ======================= CHECKOUT HEADER ======================= */
+.checkout-header {
+  position: relative;
+  text-align: center;
+  padding: 40px 16px 20px 16px;
+  margin-top: 80px;
+}
+
+.checkout-title {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  color: #ff70b8;
+}
+
+/* Back button matching product detail design - fixed at top left */
+#back-to-shop {
+  position: fixed !important;
+  top: 90px !important;
+  left: 24px !important;
+  z-index: 9999 !important;
+  color: #000000;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 10px 14px;
+  border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(6px);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+#back-to-shop:hover {
+  background: linear-gradient(135deg, #ff70b8, #ff3d8b);
+  color: #ffffff;
+  border-color: rgba(255, 112, 184, 0.75);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 112, 184, 0.3);
+}
+
+#back-to-shop .back-label {
+  color: inherit;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+#back-to-shop .back-arrow {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+#back-to-shop .back-arrow::before {
+  content: "❮";
+  font-size: 18px;
+  line-height: 1;
+  color: #000000;
+}
+
+#back-to-shop:hover .back-arrow {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+#back-to-shop:hover .back-arrow::before {
+  color: #ffffff;
+}
+
+/* ======================= CHECKOUT BANNER ======================= */
+.checkout-banner {
+  text-align: center;
+  padding: 40px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  margin: 100px 20px 20px 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.checkout-banner h2 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  color: #ff70b8;
+}
+
+.checkout-banner p {
+  font-size: 1.2em;
+  color: #000000;
+}
+
+/* PAYMENT FORM SPECIFIC STYLES */
+.payment-group {
+  flex: 1;
+  max-width: 300px;
+}
+
+.payment-group select {
+  width: 100%;
+  min-width: 250px;
+}
+
+/* ======================= CHECKOUT STEPS ======================= */
+.checkout-steps {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0 50px 0;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 10;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  border: 2px solid rgba(255, 112, 184, 0.2);
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 30px;
+  opacity: 0.6;
+  position: relative;
+  padding: 15px 20px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid transparent;
+}
+
+.step img {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 12px;
+  transition: transform 0.3s;
+}
+
+.step-label {
+  font-size: 1em;
+  text-align: center;
+  color: #000000;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.step-line {
+  width: 120px;
+  height: 3px;
+  background-color: rgba(0, 0, 0, 0.2);
+  align-self: center;
+  margin-top: 30px;
+  transition: background-color 0.3s;
+  border-radius: 2px;
+}
+
+/* Current step - Pink/Active */
+.step.current {
+  opacity: 1 !important;
+  background: linear-gradient(135deg, rgba(255, 112, 184, 0.2), rgba(255, 61, 139, 0.2)) !important;
+  box-shadow: 0 4px 20px rgba(255, 112, 184, 0.3) !important;
+  border: 2px solid #ff70b8 !important;
+  transform: scale(1.05);
+}
+
+.step.current img {
+  transform: scale(1.15);
+  filter: drop-shadow(0 4px 8px rgba(255, 112, 184, 0.4));
+}
+
+.step.current .step-label {
+  color: #ff70b8 !important;
+  font-weight: 700 !important;
+  font-size: 1.05em;
+}
+
+.step.current .step-line {
+  background: linear-gradient(90deg, #ff70b8, #ff3d8b);
+  height: 4px;
+}
+
+.step-shipping-info,
+.step-payment,
+.step-overview {
+  transition: all 0.3s;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.step.current .step-shipping-info,
+.step.current .step-payment,
+.step.current .step-overview {
+  background-color: rgba(255, 112, 184, 0.15);
+  border: 2px solid rgba(255, 112, 184, 0.3);
+}
+
+/* Completed steps - Green */
+.step.completed {
+  opacity: 0.9;
+  background: rgba(76, 175, 80, 0.1) !important;
+  border: 2px solid rgba(76, 175, 80, 0.3) !important;
+}
+
+.step.completed .step-label {
+  color: #4caf50 !important;
+  font-weight: 600;
+}
+
+.step.completed .step-line {
+  background: linear-gradient(90deg, #4caf50, #66bb6a);
+  height: 3px;
+}
+
+.step.completed img {
+  filter: drop-shadow(0 2px 4px rgba(76, 175, 80, 0.3));
+}
+
+/* Pending steps - Gray */
+.step:not(.current):not(.completed) {
+  background: rgba(0, 0, 0, 0.05);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.step:not(.current):not(.completed) .step-label {
+  color: #666666;
+}
+
+/* ======================= CHECKOUT SECTIONS ======================= */
+.checkout-section {
+  display: none; /* JS will display current step */
+  flex-direction: column;
+  gap: 20px;
+  min-height: 400px; /* prevents layout jumping */
+  margin: 20px;
+}
+
+/* ======================= NEW LAYOUT: ORDER SUMMARY TOP, FORM BELOW ======================= */
+.order-summary-top {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 20px 30px 20px;
+  padding: 0;
+  background: transparent;
+}
+
+.order-summary-top .summary-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 35px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 112, 184, 0.25);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  overflow: visible;
+  position: relative;
+}
+
+.shipping-form-container,
+.payment-form-container {
+  width: 100%;
+  margin: 0 20px;
+  padding: 0;
+}
+
+.shipping-form-container .form-container,
+.payment-form-container .form-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 35px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 112, 184, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+/* ======================= CHECKOUT FORM WITH SUMMARY LAYOUT (for review step) ======================= */
+.checkout-form-with-summary {
+  display: flex;
+  gap: 40px;
+  margin: 20px;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  flex: 1;
+  min-height: calc(100vh - 300px);
+  overflow-y: auto;
+  padding-bottom: 20px;
+}
+
+/* Step 3 (Order Review) - remove flex, display as block */
+.checkout-form-with-summary.review-only {
+  display: block;
+}
+
+.checkout-form-with-summary .form-container {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 35px;
+  border-radius: 16px;
+  flex: 1 1 50%;
+  max-width: 50%;
+  min-width: 400px;
+  border: 2px solid rgba(255, 112, 184, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.checkout-form-with-summary .summary-container {
+  background: rgba(255, 255, 255, 0.12);
+  padding: 35px;
+  border-radius: 16px;
+  flex: 1 1 50%;
+  max-width: 50%;
+  min-width: 400px;
+  border: 2px solid rgba(255, 112, 184, 0.25);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 120px;
+  overflow: visible;
+}
+
+.checkout-form-with-summary .form-container h3 {
+  color: #ff70b8;
+  margin-bottom: 28px;
+  text-align: left;
+  font-size: 1.5em;
+  font-weight: 700;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(255, 112, 184, 0.2);
+}
+
+.checkout-form-with-summary .summary-container h3 {
+  color: #ff70b8;
+  margin-bottom: 24px;
+  text-align: left;
+  font-size: 1.5em;
+  font-weight: 700;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(255, 112, 184, 0.2);
+}
+
+
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-group label {
+  display: block;
+  color: #fff;
+  margin-bottom: 6px;
+  font-size: 0.95em;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid rgba(139, 92, 246, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #000;
+  transition: all 0.3s ease;
+  font-size: 0.95em;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #ff70b8;
+  box-shadow: 0 0 0 3px rgba(255, 112, 184, 0.1);
+  background: #ffffff;
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+  border-color: rgba(139, 92, 246, 0.4);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+.form-group button {
+  width: 100%;
+  margin-top: 0;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Payment form Next button styling */
+#paymentNextBtn {
+  padding: 14px 36px;
+  margin: 0;
+  border: none;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #000000;
+  border: 2px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  letter-spacing: 0.3px;
+  height: 48px;
+}
+
+#paymentNextBtn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ff70b8, #ff3d8b);
+  color: #ffffff;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 112, 184, 0.4);
+}
+
+#paymentNextBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* ======================= EMPTY CONTAINER / ORDER SUMMARY ======================= */
+.empty-container {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 24px;
+  border-radius: 12px;
+  min-height: 100px;
+  flex: 1;
+  min-width: 300px;
+  border: 1px solid rgba(139, 92, 246, 0.15);
+}
+
+.order-summary {
+  width: 100%;
+  color: #000000;
+}
+
+.order-summary p {
+  color: #000000;
+  font-weight: 500;
+}
+
+.summary-container {
+  color: #000000;
+}
+
+/* Wide order summary table */
+.order-summary-top .order-table {
+  width: 100%;
+  table-layout: auto;
+}
+
+.order-summary-top .order-table th,
+.order-summary-top .order-table td {
+  padding: 16px;
+  white-space: nowrap;
+}
+
+.order-summary-top .product-image {
+  width: 80px;
+  height: 80px;
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.order-table th,
+.order-table td {
+  padding: 14px 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 112, 184, 0.15);
+  color: #000000;
+  font-size: 0.95em;
+  font-weight: 500;
+}
+
+.order-table th {
+  background: rgba(255, 112, 184, 0.15);
+  font-weight: 700;
+  color: #000000;
+  text-transform: uppercase;
+  font-size: 0.85em;
+  letter-spacing: 0.5px;
+}
+
+.order-table tbody tr {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.order-table tbody tr:hover {
+  background: rgba(255, 112, 184, 0.1);
+  transform: scale(1.01);
+  transition: all 0.2s ease;
+}
+
+.product-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+}
+
+.summary-totals {
+  border-top: 2px solid rgba(255, 112, 184, 0.2);
+  padding-top: 20px;
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.summary-totals .total-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-size: 1em;
+  color: #000000;
+  font-weight: 500;
+}
+
+.summary-totals .total-row span:last-child {
+  color: #000000;
+  font-weight: 600;
+}
+
+.summary-totals .total-row.total {
+  font-size: 1.3em;
+  font-weight: 700;
+  color: #ff70b8;
+  border-top: 2px solid rgba(255, 112, 184, 0.3);
+  padding-top: 16px;
+  margin-top: 8px;
+}
+
+.summary-totals .total-row.total span:last-child {
+  color: #ff70b8;
+  font-weight: 700;
+}
+
+/* ======================= STEP CONTENT WRAPPER ======================= */
+.checkout-step-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 0;
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 100px;
+}
+
+/* ======================= BUTTONS ======================= */
+
+.checkout-buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 20px;
+  margin: 0 20px;
+  width: calc(100% - 40px);
+  position: sticky;
+  bottom: 0;
+  background: rgba(20, 20, 30, 0.95);
+  backdrop-filter: blur(8px);
+  border-top: 2px solid rgba(139, 92, 246, 0.2);
+  border-radius: 12px 12px 0 0;
+  z-index: 200;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+}
+
+#nextbtn {
+  padding: 14px 36px;
+  margin: 0;
+  border: none;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #000000;
+  border: 2px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  letter-spacing: 0.3px;
+  height: 48px;
+}
+
+#nextbtn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ff70b8, #ff3d8b);
+  color: #ffffff;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 112, 184, 0.4);
+}
+
+#nextbtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* ======================= RESPONSIVE ======================= */
+@media screen and (max-width: 1024px) {
+  .checkout-buttons-container {
+    gap: 16px;
+    padding: 16px 20px;
+  }
+
+  #nextbtn {
+    padding: 11px 30px;
+    font-size: 0.94em;
+  }
+
+  .checkout-form-with-summary .form-container,
+  .checkout-form-with-summary .summary-container {
+    flex: 1 1 50%;
+    max-width: 50%;
+  }
+
+  .order-review-card {
+    padding: 24px;
+    margin-bottom: 100px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .checkout-form-with-summary {
+    flex-direction: column;
+    gap: 16px;
+    margin: 40px 15px;
+  }
+
+  .checkout-form-with-summary .form-container,
+  .checkout-form-with-summary .summary-container {
+    min-width: unset;
+    flex: 1 !important;
+  }
+
+  .checkout-buttons-container {
+    gap: 10px;
+    padding: 14px 15px;
+    margin: 0 15px;
+    flex-direction: column-reverse;
+    width: calc(100% - 30px);
+  }
+
+  #nextbtn {
+    padding: 11px 24px;
+    font-size: 0.92em;
+    width: 100%;
+  }
+
+  .shipping-form {
+    flex-direction: column;
+  }
+
+  .step-line {
+    width: 80px;
+  }
+
+  .checkout-steps {
+    flex-direction: column;
+  }
+
+  .step {
+    margin: 20px 0;
+  }
+
+  .order-review-card {
+    padding: 18px;
+    margin: 25px 15px 110px 15px;
+    gap: 12px;
+  }
+
+  .order-review-title {
+    font-size: 1.15em;
+  }
+
+  .order-review-card .section-header {
+    font-size: 0.98em;
+    
+  }
+
+  .order-review-card .section-body {
+    font-size: 0.93em;
+  }
+
+  .item-row {
+    font-size: 0.93em;
+    padding: 8px 6px;
+  }
+
+  .total-row {
+    font-size: 0.94em;
+  }
+
+  .total-row.total-final {
+    font-size: 1.08em;
+  }
+
+  .order-table th,
+  .order-table td {
+    padding: 10px;
+    font-size: 0.9em;
+  }
+}
+
+/* ======================= ORDER REVIEW - SIMPLIFIED FULL WIDTH ======================= */
+.review-only {
+  max-width: 100%;
+  margin: 0 auto;
+  flex-direction: column;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* Single container card for Step 3 Order Review - Full Width */
+.order-review-card {
+  background: #ffffff;
+  border: 2px solid rgba(255, 112, 184, 0.2);
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 100%;
+  margin: 30px auto 120px auto;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+  display: block;
+  width: 100%;
+  backdrop-filter: blur(4px);
+}
+
+.order-review-title {
+  margin: 0 0 30px 0;
+  font-size: 2em;
+  color: #ff70b8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  text-align: center;
+  padding-bottom: 20px;
+  border-bottom: 3px solid rgba(255, 112, 184, 0.3);
+}
+
+.review-sections {
+  /* Layout order review sections horizontally on wide screens */
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  width: 100%;
+  align-items: flex-start;
+  flex-wrap: wrap; /* allow wrap when container is narrow */
+}
+
+.review-section {
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 112, 184, 0.1);
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  /* flexible columns: grow/shrink, suggested base width */
+  flex: 1 1 380px;
+  min-width: 300px;
+}
+
+/* Make the totals box narrower and keep it from shrinking too small */
+.review-section.totals-section {
+  flex: 0 0 320px;
+  max-width: 360px;
+}
+
+.review-section:hover {
+  border-color: rgba(255, 112, 184, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.review-section .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid rgba(255, 112, 184, 0.15);
+}
+
+.section-title {
+  display: flex;
+  justify-content: center; /* center content when using flex */
+  text-align: center; /* fallback for inline text */
+  align-items: center;
+  gap: 10px;
+  font-size: 1.4em;
+  font-weight: 700;
+  color: #333;
+}
+
+.section-icon {
+  font-size: 1.6em;
+  display: inline-block;
+  color: #ff70b8;
+}
+
+.edit-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ff70b8;
+  text-decoration: none;
+  font-size: 0.95em;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  padding: 8px 16px;
+  border-radius: 6px;
+  background: rgba(255, 112, 184, 0.05);
+}
+
+.edit-link:hover {
+  background: rgba(255, 112, 184, 0.1);
+  color: #ff3d8b;
+}
+
+.section-content {
+  color: #555;
+  line-height: 1.8;
+  font-size: 1.05em;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.info-item:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 0.9em;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.info-value {
+  font-size: 1.1em;
+  color: #333;
+  font-weight: 500;
+  text-align: right;
+}
+
+/* Items Table - Full Width */
+.items-table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.items-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.items-table thead {
+  background: rgba(255, 112, 184, 0.1);
+}
+
+.items-table th {
+  padding: 16px 12px;
+  text-align: left;
+  font-weight: 700;
+  color: #333;
+  font-size: 1em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid rgba(255, 112, 184, 0.2);
+}
+
+.items-table td {
+  padding: 18px 12px;
+  border-bottom: 1px solid #eee;
+  color: #555;
+  font-size: 1em;
+}
+
+.items-table .product-name {
+  font-weight: 600;
+  color: #333;
+  max-width: 300px;
+}
+
+.items-table .quantity {
+  text-align: center;
+  color: #666;
+  font-weight: 500;
+}
+
+.items-table .price,
+.items-table .subtotal {
+  text-align: right;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Totals Section */
+.totals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  font-size: 1.05em;
+}
+
+.total-label {
+  color: #666;
+  font-weight: 500;
+}
+
+.total-value {
+  color: #333;
+  font-weight: 600;
+}
+
+.total-final {
+  margin-top: 20px;
+  padding: 25px;
+  background: linear-gradient(135deg, rgba(255, 112, 184, 0.1), rgba(255, 112, 184, 0.05));
+  border-radius: 12px;
+  border: 2px solid rgba(255, 112, 184, 0.2);
+}
+
+.total-final .total-label {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: #333;
+}
+
+.total-final .total-value {
+  font-size: 1.6em;
+  font-weight: 800;
+  color: #ff70b8;
+}
+
+/* Order Actions */
+.order-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 2px solid rgba(255, 112, 184, 0.15);
+}
+
+.order-actions .btn-confirm-order {
+  width: 100%;
+  max-width: 500px;
+  padding: 18px 40px;
+  font-size: 1.2em;
+  font-weight: 600;
+  background: linear-gradient(135deg, #ff70b8, #ff3d8b);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: 0 4px 15px rgba(255, 112, 184, 0.3);
+}
+
+.order-actions .btn-confirm-order:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 112, 184, 0.4);
+}
+
+/* Responsive for mobile */
+@media (max-width: 768px) {
+  .order-review-card { 
+    padding: 25px; 
+    margin: 20px 15px 120px 15px;
+  }
+  
+  .order-review-title { 
+    font-size: 1.6em; 
+  }
+  
+  .review-section {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .section-title {
+    font-size: 1.2em;
+  }
+  
+  .info-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .info-value {
+    text-align: left;
+  }
+  
+  .items-table th,
+  .items-table td {
+    padding: 12px 8px;
+    font-size: 0.9em;
+  }
+  
+  .items-table .product-name {
+    max-width: 200px;
+  }
+  
+  .order-actions .btn-confirm-order { 
+    max-width: 100%;
+    padding: 16px 24px;
+    font-size: 1.1em;
+  }
+}
+
+/* Responsive behavior for order review horizontal layout */
+@media (max-width: 900px) {
+  .review-sections {
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .review-section {
+    flex: 1 1 100%;
+    min-width: 0;
+    padding: 18px;
+  }
+
+  .review-section.totals-section {
+    flex: 1 1 100%;
+    max-width: none;
+  }
+}
+
+/* Professional Order Review Styles */
+.order-review-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid rgba(255, 112, 184, 0.2);
+}
+
+.order-review-subtitle {
+  color: #666;
+  font-size: 0.95em;
+  margin-top: 8px;
+  font-weight: 400;
+}
+
+.review-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.review-section {
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid rgba(255, 112, 184, 0.1);
+  transition: all 0.3s ease;
+}
+
+.review-section:hover {
+  border-color: rgba(255, 112, 184, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.review-section .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(255, 112, 184, 0.15);
+}
+
+.section-title {
+  display: flex;
+  justify-content: center; /* ensure flex children are centered */
+  text-align: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2em;
+  font-weight: 700;
+  color: #333;
+}
+
+.section-icon {
+  font-size: 1.4em;
+  display: inline-block;
+}
+
+.edit-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ff70b8;
+  text-decoration: none;
+  font-size: 0.95em;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+.edit-link:hover {
+  background: rgba(255, 112, 184, 0.1);
+  color: #ff3d8b;
+}
+
+.edit-link svg {
+  width: 14px;
+  height: 14px;
+}
+
+.section-content {
+  color: #555;
+  line-height: 1.8;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.info-item:last-child {
+  margin-bottom: 0;
+}
+
+.info-label {
+  font-size: 0.85em;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.info-value {
+  font-size: 1.05em;
+  color: #333;
+  font-weight: 500;
+}
+
+.payment-method {
+  color: #ff70b8;
+  font-weight: 600;
+}
+
+.payment-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: rgba(255, 112, 184, 0.08);
+  border-radius: 8px;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.note-icon {
+  font-size: 1.1em;
+}
+
+.info-empty {
+  color: #999;
+  font-style: italic;
+  padding: 20px;
+  text-align: center;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.item-count {
+  font-size: 0.9em;
+  color: #888;
+  font-weight: 500;
+}
+
+/* Items Table */
+.items-table {
+  overflow-x: auto;
+}
+
+.items-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.items-table thead {
+  background: rgba(255, 112, 184, 0.1);
+}
+
+.items-table th {
+  padding: 14px 12px;
+  text-align: left;
+  font-weight: 700;
+  color: #333;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid rgba(255, 112, 184, 0.2);
+}
+
+.items-table td {
+  padding: 16px 12px;
+  border-bottom: 1px solid #eee;
+  color: #555;
+}
+
+.items-table tbody tr:hover {
+  background: rgba(255, 112, 184, 0.05);
+}
+
+.items-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.items-table .product-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.items-table .quantity {
+  text-align: center;
+  color: #666;
+}
+
+.items-table .price,
+.items-table .subtotal {
+  text-align: right;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Totals List */
+.totals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.total-label {
+  color: #666;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+.total-value {
+  color: #333;
+  font-weight: 600;
+  font-size: 1em;
+}
+
+.total-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 112, 184, 0.3), transparent);
+  margin: 8px 0;
+}
+
+.total-final {
+  margin-top: 8px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(255, 112, 184, 0.1), rgba(255, 112, 184, 0.05));
+  border-radius: 10px;
+  border: 2px solid rgba(255, 112, 184, 0.2);
+}
+
+.total-final .total-label {
+  font-size: 1.3em;
+  font-weight: 700;
+  color: #333;
+}
+
+.total-final .final-amount {
+  font-size: 1.5em;
+  font-weight: 800;
+  color: #ff70b8;
+}
+
+/* Responsive: keep same single container but adjust spacing */
+@media (max-width: 768px) {
+  .order-review-card { 
+    padding: 20px; 
+    gap: 20px; 
+    margin: 20px 15px 120px 15px;
+  }
+  
+  .order-review-title { 
+    font-size: 1.4em; 
+  }
+  
+  .order-review-subtitle {
+    font-size: 0.9em;
+  }
+  
+  .review-section {
+    padding: 18px;
+  }
+  
+  .section-title {
+    font-size: 1.05em;
+  }
+  
+  .items-table {
+    font-size: 0.9em;
+  }
+  
+  .items-table th,
+  .items-table td {
+    padding: 10px 8px;
+  }
+  
+  .items-table .product-name {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .total-final .total-label {
+    font-size: 1.1em;
+  }
+  
+  .total-final .final-amount {
+    font-size: 1.3em;
+  }
+  
+  .order-actions .btn-confirm-order { 
+    max-width: 100%;
+    padding: 14px 24px;
+    font-size: 1em;
+  }
+}
+
+.review-only > div {
+  background: transparent !important;
+  padding: 40px 20px !important;
+  flex: 1;
+  min-width: unset;
+}
+
+.review-wrapper {
+  display: grid;
+  /* right column wider so tables/totals fit */
+  grid-template-columns: 1fr 1.6fr;
+  grid-auto-rows: minmax(80px, auto);
+  gap: 18px;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.review-wrapper h3 {
+  grid-column: 1 / -1;
+  margin: 0 0 10px 0;
+  font-size: 1.6em;
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.review-section {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(139, 92, 246, 0.28);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+  transition: all 0.22s ease;
+  backdrop-filter: blur(4px);
+}
+
+/* Place the four review sections into a 2x2 grid:
+   1: Shipping (top-left)
+   2: Payment  (bottom-left)
+   3: Items    (top-right)
+   4: Totals   (bottom-right)
+*/
+.review-wrapper > .review-section:nth-of-type(1) { grid-column: 1 / 2; grid-row: 1; }
+.review-wrapper > .review-section:nth-of-type(2) { grid-column: 1 / 2; grid-row: 2; }
+.review-wrapper > .review-section:nth-of-type(3) { grid-column: 2 / 3; grid-row: 1; }
+.review-wrapper > .review-section:nth-of-type(4) { grid-column: 2 / 3; grid-row: 2; }
+
+.review-section:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(139, 92, 246, 0.6);
+  box-shadow: 0 12px 48px rgba(139, 92, 246, 0.2);
+  transform: translateY(-2px);
+}
+
+.review-section h4 {
+  font-size: 1.3em;
+  margin-bottom: 20px;
+  color: #fff;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 2px solid rgba(139, 92, 246, 0.5);
+}
+
+.review-content {
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 2;
+  margin-bottom: 15px;
+  font-size: 0.95em;
+}
+
+.review-content p {
+  margin: 12px 0;
+  padding: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.review-content strong {
+  color: rgba(139, 92, 246, 0.9);
+  font-weight: 600;
+  min-width: 150px;
+}
+
+.edit-link {
+  color: #ff70b8;
+  text-decoration: none;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+  display: inline-block;
+  padding: 8px 18px;
+  background: rgba(255, 112, 184, 0.1);
+  border-radius: 8px;
+  border: 2px solid rgba(255, 112, 184, 0.3);
+}
+
+.edit-link:hover {
+  color: #fff;
+  background: linear-gradient(135deg, #ff70b8, #ff3d8b);
+  border-color: rgba(255, 112, 184, 0.8);
+  box-shadow: 0 4px 12px rgba(255, 112, 184, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Small edit link for order review */
+.edit-link.small {
+  margin-top: 0;
+  margin-left: 10px;
+  padding: 6px 14px;
+  font-size: 0.85em;
+  background: transparent;
+  border: 2px solid #ff70b8;
+  color: #ff70b8;
+}
+
+.edit-link.small:hover {
+  background: linear-gradient(135deg, #ff70b8, #ff3d8b);
+  color: #fff;
+  border-color: #ff70b8;
+  transform: translateY(-1px);
+}
+
+/* Review Order Table */
+.review-order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  max-height: 240px;
+  overflow: auto;
+}
+
+.review-order-table thead {
+  background: rgba(139, 92, 246, 0.15);
+}
+
+.review-order-table th {
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 700;
+  color: #fff;
+  border-bottom: 2px solid rgba(139, 92, 246, 0.5);
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.review-order-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.review-order-table tbody tr:hover {
+  background: rgba(139, 92, 246, 0.05);
+}
+
+.product-info {
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+.product-image-small {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid rgba(139, 92, 246, 0.22);
+  flex-shrink: 0;
+}
+
+.product-info p {
+  margin: 0;
+  font-size: 0.9em;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.product-info .variant-text {
+  font-size: 0.8em;
+  color: rgba(139, 92, 246, 0.8);
+  margin-top: 5px;
+}
+
+/* Review Totals */
+.review-totals {
+  background: rgba(139, 92, 246, 0.1);
+  padding: 25px;
+  border-radius: 10px;
+  margin: 15px 0;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+  font-size: 0.95em;
+  color: rgba(12, 9, 9, 0.85);
+}
+
+.total-row span:last-child {
+  font-weight: 600;
+  color: rgba(8, 8, 8, 0.9);
+}
+
+.total-row.total-final {
+  border-bottom: 2px solid rgba(139, 92, 246, 0.8);
+  border-top: 2px solid rgba(139, 92, 246, 0.8);
+  padding: 18px 0;
+  margin-top: 15px;
+  font-size: 1.2em;
+  font-weight: 700;
+}
+
+.total-row.total-final span:last-child {
+  color: #8b5cf6;
+  font-size: 1.4em;
+  font-weight: 700;
+}
+
+/* Review Actions */
+.review-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  justify-content: center;
+}
+
+.btn-confirm-order {
+  background: linear-gradient(135deg, #ff70b8 0%, #ff3d8b 100%);
+  color: white;
+  padding: 16px 48px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(255, 112, 184, 0.4);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.btn-confirm-order:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ff3d8b, #ff1493);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(255, 112, 184, 0.5);
+}
+
+.btn-confirm-order:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn-confirm-order:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive Design for Order Review */
+@media (max-width: 768px) {
+  .review-only {
+    max-width: 100%;
+    padding: 0 !important;
+  }
+
+  .review-only > div {
+    padding: 30px 15px !important;
+  }
+
+  .review-wrapper h3 {
+    font-size: 1.5em;
+    margin-bottom: 25px;
+  }
+
+  .review-section {
+    padding: 20px;
+    margin-bottom: 15px;
+  }
+
+  .review-section h4 {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+  }
+
+  .review-content p {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .review-content strong {
+    min-width: unset;
+  }
+
+  .review-order-table {
+    font-size: 0.85em;
+  }
+
+  .review-order-table th,
+  .review-order-table td {
+    padding: 12px 10px;
+  }
+
+  .product-image-small {
+    width: 50px;
+    height: 50px;
+  }
+
+  .product-info {
+    gap: 10px;
+  }
+
+  .review-totals {
+    padding: 20px;
+  }
+
+  .total-row {
+    padding: 10px 0;
+  }
+
+  .total-row.total-final span:last-child {
+    font-size: 1.2em;
+  }
+
+  .edit-link {
+    padding: 6px 12px;
+    font-size: 0.8em;
+  }
+}
