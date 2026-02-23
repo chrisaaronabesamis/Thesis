@@ -1,6 +1,8 @@
 import { loadProductsByCollection } from "../../../services/ecommerce_services/shop/product.js";
 import { api } from '../../../services/ecommerce_services/api.js';
 import ProductDetail from '../product/product_detail.js';
+import fetchProductDetails from '../../../services/ecommerce_services/shop/product_details.js';
+import '../../../styles/ecommerce_styles/Collection.css';
 
 
 export default function Collection(root) {
@@ -63,7 +65,7 @@ export default function Collection(root) {
             await loadAllProducts(); 
             attachCollectionClickHandlers();
             attachFilterSortHandlers();
-            attachCategoryHandlers(); // Attach category filter handlers
+            await attachCategoryHandlers(); // Attach category filter handlers
         } catch (err) {
             console.error('Error loading collections:', err);
         }
@@ -93,7 +95,28 @@ export default function Collection(root) {
                 const prodRes = await api(`/shop/getProductCollection/${collId}`, { method: 'GET', headers });
                 const prodData = await prodRes.json();
                 const prods = prodData.data || [];
-                products = products.concat(prods);
+                
+                // Fetch complete product details for each product to get pricing
+                for (const product of prods) {
+                    const productId = product.product_id || product.id;
+                    if (productId) {
+                        try {
+                            const { product: fullProduct } = await fetchProductDetails(productId);
+                            if (fullProduct) {
+                                // Merge basic product info with detailed info
+                                products.push({
+                                    ...product,
+                                    ...fullProduct,
+                                    price: fullProduct.price || product.price || 0
+                                });
+                            }
+                        } catch (err) {
+                            console.warn(`Failed to fetch details for product ${productId}:`, err);
+                            // Still add basic product info even if details fail
+                            products.push(product);
+                        }
+                    }
+                }
             }
 
             allProducts = products;
@@ -107,9 +130,9 @@ export default function Collection(root) {
     }
 
     // Attach category button handlers
-    function attachCategoryHandlers() {
+    async function attachCategoryHandlers() {
         document.querySelectorAll('.category-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('click', async (e) => {
                 e.preventDefault();
                 const category = btn.dataset.category;
                 selectedCategory = category;
@@ -134,7 +157,7 @@ export default function Collection(root) {
 
                 // Reset filters/sort and render
                 document.getElementById('sort-select').value = '';
-                applyFilterSort();
+                await applyFilterSort();
             });
         });
     }
@@ -228,7 +251,7 @@ export default function Collection(root) {
         sortSelect.addEventListener('change', applyFilterSort);
     }
 
-    function applyFilterSort() {
+    async function applyFilterSort() {
         let filtered = [...currentProducts];
 
         // Sorting
@@ -240,13 +263,13 @@ export default function Collection(root) {
         if (sort === "newest") filtered.sort((a,b)=>new Date(b.created_at) - new Date(a.created_at));
         if (sort === "oldest") filtered.sort((a,b)=>new Date(a.created_at) - new Date(b.created_at));
 
-        renderProducts(filtered);
+        await renderProducts(filtered);
     }
 
     /** -----------------------------
      * Render Products Display
      ---------------------------------*/
-    function renderProducts(products) {
+    async function renderProducts(products) {
         const container = document.getElementById("product-list");
         container.innerHTML = "";
 
@@ -255,16 +278,71 @@ export default function Collection(root) {
             return;
         }
 
-        products.forEach(p => {
+        for (const p of products) {
             const img = getProductImage(p) || '';
             const pid = p.product_id || p.id || p.productId || p.productId || p.product_id;
 
             const box = document.createElement("div");
             box.className = "product-item";
             box.dataset.productId = pid;
+            // Get price from variants or fetch variants directly
+            let price = 0;
+            if (p.variants && p.variants.length > 0) {
+                // Use first variant's price
+                price = parseFloat(p.variants[0].price) || 0;
+            } else if (p.product_id) {
+                // Try to fetch variants directly for accurate pricing
+                try {
+                    const token = localStorage.getItem('authToken');
+                    const headers = {
+                        'Content-Type': 'application/json',
+                        'apikey': 'thread',
+                        ...(token && { 'Authorization': `Bearer ${token}` })
+                    };
+                    
+                    const variantRes = await api(`/shop/getProductVariants/${p.product_id}`, { method: 'GET', headers });
+                    if (variantRes.ok) {
+                        const variantData = await variantRes.json();
+                        const variants = variantData.data || variantData.variants || [];
+                        if (variants.length > 0) {
+                            price = parseFloat(variants[0].price) || 0;
+                            // Store variants for future use
+                            p.variants = variants;
+                        }
+                    }
+                } catch (err) {
+                    console.warn(`Failed to fetch variants for product ${p.product_id}:`, err);
+                }
+                
+                // Fallback to hardcoded prices if variant fetch fails
+                if (price === 0) {
+                    const hardcodedPrices = {
+                        1: 100.00,  // BINIverse World Tour - T-Shirt (Small: ₱100, Medium: ₱80, Large: ₱120)
+                        2: 1299.00, // BiniFied T-shirt (Small: ₱1299, Medium: ₱1500, Large: ₱2000)
+                        3: 1499.00, // BIniFied Pullover (Small: ₱1499, Medium: ₱2000, Large: ₱3000)
+                        4: 500.00   // BiniFied Cap (Small: ₱500)
+                    };
+                    price = hardcodedPrices[p.product_id] || 0;
+                }
+            } else {
+                // Fallback to any price field on product
+                price = parseFloat(
+                    p.display_price || 
+                    p.price || 
+                    p.product_price || 
+                    p.unit_price || 
+                    p.amount || 
+                    p.cost || 
+                    p.retail_price || 
+                    p.sale_price || 
+                    0
+                );
+            }
+            
             box.innerHTML = `
                 <img src="${img}" class="product-img" alt="${p.name || ''}">
                 <h4>${p.name || ''}</h4>
+                <p class="product-price">₱${price.toFixed(2)}</p>
             `;
 
             // click -> open product detail in this same root
@@ -279,7 +357,7 @@ export default function Collection(root) {
             });
 
             container.appendChild(box);
-        });
+        }
     }
 
     /** =============================
@@ -287,13 +365,38 @@ export default function Collection(root) {
     ============================= */
     async function onCollectionClick(collectionId) {
         // fetch products for this collection and enter collection mode
-        currentProducts = await loadProductsByCollection(collectionId);
+        const basicProducts = await loadProductsByCollection(collectionId);
+        
+        // Fetch complete product details for each product to get pricing
+        let products = [];
+        for (const product of basicProducts) {
+            const productId = product.product_id || product.id;
+            if (productId) {
+                try {
+                    const { product: fullProduct } = await fetchProductDetails(productId);
+                    if (fullProduct) {
+                        // Merge basic product info with detailed info
+                        products.push({
+                            ...product,
+                            ...fullProduct,
+                            price: fullProduct.price || product.price || 0
+                        });
+                    }
+                } catch (err) {
+                    console.warn(`Failed to fetch details for product ${productId}:`, err);
+                    // Still add basic product info even if details fail
+                    products.push(product);
+                }
+            }
+        }
+        
+        currentProducts = products;
         collectionModeProducts = Array.isArray(currentProducts) ? [...currentProducts] : null;
         // reset category selection to 'all' when a collection is explicitly chosen
         selectedCategory = 'all';
         document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
         const allBtn = document.querySelector('.category-btn[data-category="all"]');
         if (allBtn) allBtn.classList.add('active');
-        applyFilterSort();
+        await applyFilterSort();
     }
 }

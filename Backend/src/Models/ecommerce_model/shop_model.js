@@ -141,6 +141,16 @@ class ShopModel {
     return rows;
   }
 
+  async getProductVariants(product_id) {
+    const query = `
+      SELECT *
+      FROM product_variants
+      WHERE product_id = ?
+    `;
+    const [rows] = await this.db.query(query, [product_id]);
+    return rows;
+  }
+
 // get product by id with variants
 // cart integration
 // about, events, announcement implemenetation

@@ -12,7 +12,7 @@ export default function OrderConfirmation(orderData = null) {
       <div class="container">
         <div class="order-check">✔️</div>
         <h2 class="section-title">Order Successful! 🎉</h2>
-        <p class="order-message">Your order <strong id="orderNumber">#BINI-${generateOrderNumber()}</strong> has been placed.</p>
+        <p class="order-message">Your order has been placed.</p>
 
         <div id="orderSummary" class="order-summary">
           <div class="loading">Loading order details...</div>

@@ -61,7 +61,7 @@ function getMockThreads() {
       venue: 'Livestream',
       author: 'Admin',
       commentCount: 0,
-      isPinned: false
+      isPinned: false 
     },
     {
       id: 4,
@@ -70,16 +70,16 @@ function getMockThreads() {
       venue: 'WISH Bus 107.5',
       author: 'Admin',
       commentCount: 0,
-      isPinned: false
+      isPinned: true  
     },
     {
       id: 5,
-      title: 'The Sterling X BINI Fan Meet',
+      title: 'Ticket redemption!!',
       date: 'December 16, 2025',
-      venue: 'New Performing Arts Theater',
+      venue: 'Moa Arena',
       author: 'Admin',
       commentCount: 0,
-      isPinned: false
+      isPinned: true
     },
     {
       id: 6,

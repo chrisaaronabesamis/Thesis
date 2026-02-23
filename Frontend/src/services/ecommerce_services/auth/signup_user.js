@@ -2,7 +2,7 @@ import api from "../../../lib/api";
 
 export async function registerUser(data) {
   try {
-    const endpoint = "/v1/ecommerce/users/register";
+    const endpoint = "/ecommerce/users/register";
     console.log('Signup debug:', {
       baseURL: api.defaults.baseURL,
       endpoint,

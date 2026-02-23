@@ -1,12 +1,13 @@
 .order-confirm-section {
   max-width: 1000px;
   margin: 2rem auto 3rem;
-  background: white;
+  background: linear-gradient(135deg, #ff70b8, #ff3d8b, #d63384, #a855f7, #7d5fff, #3a86ff, #06ffa5, #ffbe0b);
   border-radius: 36px 36px 32px 32px;
   box-shadow: 0 20px 35px -8px rgba(210, 80, 140, 0.15), 0 8px 12px rgba(0,0,0,0.02);
   padding: 2.5rem 2.8rem;
   border: 1px solid #ffe2ec;
   min-height: calc(100vh - 200px);
+  
 }
 
 .container {
@@ -22,7 +23,7 @@
 }
 
 .section-title {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 650;
   background: linear-gradient(145deg, #a52d6a, #cf3f7a);
   -webkit-background-clip: text;

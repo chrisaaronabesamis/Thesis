@@ -279,6 +279,16 @@
   text-align: center;
 }
 
+/* PRODUCT PRICE */
+.product-item .product-price {
+  padding: 0 15px 15px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ec4899;
+  text-align: center;
+  margin: 0;
+}
+
 /* NO PRODUCTS MESSAGE */
 .no-products {
   grid-column: 1 / -1;
