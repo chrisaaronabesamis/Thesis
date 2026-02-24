@@ -233,72 +233,101 @@
   border-color: #FF69B4;
 }
 
-/* Buttons */
+/* Buttons - Consistent Pink Theme */
 .button-group {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 12px;
+  flex-wrap: wrap;
 }
 
-.btn-primary, .btn-secondary, .btn-link {
-  padding: 11px 20px;
+/* Base Button Styles */
+.btn {
+  padding: 12px 24px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
   font-weight: 600;
-  transition: all 0.3s ease;
   font-size: 0.95rem;
-}
-
-.button-group .btn-primary,
-.button-group .btn-secondary {
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  box-sizing: border-box;
   flex: 1;
-  margin-bottom: 0;
-  width: auto;
+  min-width: 140px;
 }
 
+/* Primary Button - Add to Cart */
 .btn-primary {
-  background: #FF69B4;
-  color: white;
-}
-
-.btn-primary:hover {
-  background: #FF1493;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 105, 180, 0.3);
-}
-
-.btn-secondary {
-  background: #FFD700;
-  color: #333;
-  border: 2px solid #FFC107;
-}
-
-.btn-secondary:hover {
-  background: #FFC107;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
-}
-
-.product-detail .button-group .btn-primary,
-.product-detail .button-group .btn-secondary {
   background: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(0, 0, 0, 0.12);
   color: #000000;
-  border-radius: 12px;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
   backdrop-filter: blur(6px);
-  transform: none;
 }
 
-.product-detail .button-group .btn-primary:hover,
-.product-detail .button-group .btn-secondary:hover {
+.btn-primary:hover {
   background: linear-gradient(135deg, #ff70b8, #ff3d8b);
-  border-color: rgba(255, 112, 184, 0.75);
   color: #ffffff;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(255, 112, 184, 0.3);
+}
+
+/* Secondary Button - Buy Now */
+.btn-secondary {
+  background: linear-gradient(135deg, #ff8fab, #ff6b9d);
+  color: white;
+  border: 2px solid #ff70b8;
+  box-shadow: 0 2px 4px rgba(255, 112, 184, 0.3);
+  padding: clamp(0.75rem, 1.8vw, 12px) clamp(1.5rem, 3vw, 28px);
+  margin: 0;
+  border-radius: clamp(8px, 1.5vw, 12px);
+  font-weight: 700;
+  font-size: clamp(0.875rem, 1.8vw, 1em);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: clamp(120px, 20vw, 160px);
+  letter-spacing: clamp(0.3px, 0.3vw, 0.5px);
+  min-height: clamp(44px, 7vw, 52px);
+  box-sizing: border-box;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-secondary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.btn-secondary:hover::before {
+  left: 100%;
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #FF1493, #C71585);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
+}
+
+.btn-primary:active,
+.btn-secondary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(255, 112, 184, 0.3);
 }
 
 .btn-link {
@@ -348,8 +377,17 @@
     font-size: 1.4rem;
   }
   
-  .btn-primary, .btn-secondary {
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .btn {
     width: 100%;
+    min-width: auto;
+    min-height: 52px;
+    font-size: 1rem;
+    padding: 14px 20px;
   }
   
   .variant-options {
@@ -358,6 +396,18 @@
   
   .variant-option {
     width: 100%;
+  }
+  
+  .cart-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .qty-control {
+    justify-content: center;
+    max-width: 200px;
+    margin: 0 auto;
   }
 }
 

@@ -4,8 +4,12 @@ export default async function OrderSummary(root) {
     const cartItems = await getCart();
     const selectedItems = JSON.parse(sessionStorage.getItem('selectedCartItems') || '{}');
     const checkoutItems = cartItems.filter(item => selectedItems[item.variant_id]);
+    
+    // Check for Buy Now items if no cart items selected
+    const buyNowItems = JSON.parse(sessionStorage.getItem('checkoutItems') || '[]');
+    const displayItems = checkoutItems.length > 0 ? checkoutItems : buyNowItems;
 
-    const subTotal = checkoutItems.reduce((sum, item) => sum + ((parseFloat(item.price) || 0) * item.quantity), 0);
+    const subTotal = displayItems.reduce((sum, item) => sum + ((parseFloat(item.price) || 0) * item.quantity), 0);
 
     // Read shipping fee from sessionStorage. If not present, show as not calculated (—)
     const shippingFeeStored = sessionStorage.getItem('shippingFee');
@@ -16,7 +20,7 @@ export default async function OrderSummary(root) {
     <section class="order-summary">
         <div class="summary-container">
             <h3>Order Summary</h3>
-            ${checkoutItems.length === 0 ? '<p style="color: #000000; font-weight: 500;">No items selected for checkout.</p>' : `
+            ${displayItems.length === 0 ? '<p style="color: #000000; font-weight: 500;">No items selected for checkout.</p>' : `
             <div style="width: 100%; overflow-x: visible;">
                 <table class="order-table" style="width: 100%;">
                     <thead>
@@ -28,7 +32,7 @@ export default async function OrderSummary(root) {
                         </tr>
                     </thead>
                     <tbody>
-                        ${checkoutItems.map(item => `
+                        ${displayItems.map(item => `
                             <tr>
                                 <td><img src="${item.image_url}" alt="${item.product_name}" class="product-image"></td>
                                 <td style="color: #000000; font-weight: 500; white-space: normal;">${item.product_name} ${item.variant_name || ''}</td>

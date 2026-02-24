@@ -29,7 +29,7 @@ export default async function Checkout() {
     <div class="checkout-header">
       <button id="back-to-shop" class="btn-link">
         <span class="back-arrow" aria-hidden="true"></span>
-        <span class="back-label">Back to shop</span>
+        <span class="back-label">Back</span>
       </button>
       <h1 class="checkout-title">Checkout</h1>
     </div>

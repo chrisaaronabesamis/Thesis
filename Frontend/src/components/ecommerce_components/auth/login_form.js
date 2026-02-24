@@ -1,5 +1,6 @@
 import { loginUser } from '../../../services/ecommerce_services/auth/signin.js';
 import '../user/request_password_reset.js';
+import { showToast } from '../../../utils/toast.js';
 
 export default function LoginForm(root) {
   // If user already has an auth token, redirect immediately before rendering the form
@@ -43,7 +44,10 @@ export default function LoginForm(root) {
 
     try {
       await loginUser(data);
-      window.location.href = '/'; 
+      showToast('Login successful! Welcome back!', 'success');
+      setTimeout(() => {
+        window.location.href = '/'; 
+      }, 1500);
     } catch (err) {
       console.error('Failed to login:', err);
     }

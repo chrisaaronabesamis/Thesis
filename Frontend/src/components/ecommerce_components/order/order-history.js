@@ -11,37 +11,33 @@ export default function OrderHistory() {
         <!-- Header with Stats -->
         <div class="order-history-header">
           <div class="header-title">
-            <div>
-              <button class="btn btn-outline order-back" onclick="window.location.href='http://localhost:5173/'">
-                <i class="fas fa-arrow-left"></i> Back
-              </button>
-              <h1>Order History</h1>
-              <p class="order-count" id="orderCount">Loading your orders...</p>
-            </div>
-            <div class="view-toggle">
-              <button class="view-btn active" onclick="toggleView('table')" data-view="table">
-                <i class="fas fa-table"></i> Table
-              </button>
-            </div>
+            <button class="btn-link" id="back-to-shop" onclick="window.location.href='/'">
+              <span class="back-arrow" aria-hidden="false"></span>
+            </button>
+            <h1>Order History</h1>
           </div>
           
           <!-- Order Stats -->
           <div class="order-stats" id="orderStats">
             <div class="stat-card">
-              <span class="stat-value" id="totalOrders">0</span>
-              <span class="stat-label">Total Orders</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-value" id="deliveredOrders">0</span>
-              <span class="stat-label">Delivered</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-value" id="processingOrders">0</span>
-              <span class="stat-label">Processing</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-value" id="totalSpent">₱0</span>
-              <span class="stat-label">Total Spent</span>
+              <div class="stat-row">
+                <div class="stat-item">
+                  <span class="stat-label">Total Orders</span>
+                  <span class="stat-value" id="totalOrders">0</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Delivered</span>
+                  <span class="stat-value" id="deliveredOrders">0</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Processing</span>
+                  <span class="stat-value" id="processingOrders">0</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Total Spent</span>
+                  <span class="stat-value" id="totalSpent">₱0</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -70,10 +66,6 @@ export default function OrderHistory() {
               <option value="Delivered">Delivered</option>
               <option value="Cancelled">Cancelled</option>
             </select>
-            <div class="filter-actions">
-              <button class="btn btn-outline" onclick="clearFilters()">Clear</button>
-              <button class="btn btn-primary" onclick="applyFilters()">Filter</button>
-            </div>
           </div>
         </div>
 
@@ -173,7 +165,6 @@ export default function OrderHistory() {
     document.getElementById('deliveredOrders').textContent = deliveredOrders;
     document.getElementById('processingOrders').textContent = processingOrders;
     document.getElementById('totalSpent').textContent = `₱${totalSpent.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    document.getElementById('orderCount').textContent = `${totalOrders} order${totalOrders !== 1 ? 's' : ''} found`;
   }
 
   function displayOrders() {
@@ -188,8 +179,8 @@ export default function OrderHistory() {
         <tr>
           <td colspan="6" class="no-orders-row">
             <div class="no-orders">
-              <i class="fas fa-shopping-cart"></i>
-              <p>You haven't placed any orders yet.</p>
+              <i class="fas fa-search"></i>
+              <p>No items found</p>
               <a href="/shop" class="btn btn-primary">Start Shopping</a>
             </div>
           </td>
@@ -204,7 +195,7 @@ export default function OrderHistory() {
       const remainingItems = items.length - 3;
       
       return `
-        <tr class="order-row" onclick="toggleOrderDetails('${order.order_id || order.id}')">
+        <tr class="order-row">
           <td>
             <a href="#" class="order-link">${order.userSequence}</a>
           </td>
@@ -233,8 +224,8 @@ export default function OrderHistory() {
           </td>
           <td class="order-total">₱${(order.total || order.total_amount || 0).toLocaleString()}</td>
           <td>
-            <button class="btn btn-sm btn-outline dropdown-toggle" onclick="event.stopPropagation(); toggleDropdown(event, '${order.order_id || order.id}')">
-              <i class="fas fa-ellipsis-v"></i>
+            <button class="btn btn-sm btn-outline" onclick="toggleOrderDetails('${order.order_id || order.id}')">
+              👁 Details
             </button>
           </td>
         </tr>
@@ -244,7 +235,7 @@ export default function OrderHistory() {
               <div class="details-header">
                 <h4>(Order Details) Your Order #${order.userSequence}</h4>
                 <button class="btn btn-sm btn-outline" onclick="toggleOrderDetails('${order.order_id || order.id}')">
-                  <i class="fas fa-times"></i> Close
+                  ✖ Close
                 </button>
               </div>
               <div class="details-content">
@@ -291,8 +282,8 @@ export default function OrderHistory() {
     if (!filteredOrders || filteredOrders.length === 0) {
       container.innerHTML = `
         <div class="no-orders-card">
-          <i class="fas fa-shopping-cart"></i>
-          <p>You haven't placed any orders yet.</p>
+          <i class="fas fa-search"></i>
+          <p>No items found</p>
           <a href="/shop" class="btn btn-primary">Start Shopping</a>
         </div>
       `;
@@ -521,6 +512,12 @@ export default function OrderHistory() {
         className: 'danger-item'
       }] : []),
       {
+        icon: 'fas fa-share-alt',
+        text: 'Share Order',
+        action: `shareOrder('${orderId}')`,
+        role: 'menuitem'
+      },
+      {
         icon: 'fas fa-truck',
         text: 'Track Order',
         action: `trackOrder('${orderId}')`,
@@ -723,6 +720,35 @@ export default function OrderHistory() {
     const detailsRow = document.getElementById(`details-${orderId}`);
     if (detailsRow) {
       detailsRow.style.display = detailsRow.style.display === 'none' ? 'table-row' : 'none';
+    }
+  };
+
+  window.deleteOrder = async (orderId) => {
+    if (confirm('Are you sure you want to delete this order? This action cannot be undone.')) {
+      try {
+        const response = await fetch(api(`/orders/${orderId}`), {
+          method: 'DELETE',
+          headers: authHeaders()
+        });
+        
+        if (response.ok) {
+          // Remove order from both arrays
+          allOrders = allOrders.filter(order => (order.order_id || order.id) !== orderId);
+          filteredOrders = filteredOrders.filter(order => (order.order_id || order.id) !== orderId);
+          
+          // Update display
+          updateStats();
+          displayOrders();
+          
+          // Show success message
+          alert('Order deleted successfully!');
+        } else {
+          alert('Failed to delete order. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error deleting order:', error);
+        alert('Error deleting order. Please try again.');
+      }
     }
   };
 

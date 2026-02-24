@@ -4,14 +4,14 @@ export default function CheckoutButtons(root) {
     // Add buttons for all steps (only Next button, back button is in checkout_page.js)
     root.innerHTML += `
     <section class="checkout-buttons-container">
-        <button id="nextbtn" class="show">Next</button>
+        <button class="btn-next" id="paymentNextBtn" type="button" data-payment-handler="true" disabled="">Processing...</button>
     </section>
     `;
     
     // Use a small delay to ensure DOM is updated
     setTimeout(() => {
         let currentStep = Number(sessionStorage.getItem('checkoutStep')) || 1;
-        const nextBtn = document.getElementById('nextbtn');
+        const nextBtn = document.getElementById('paymentNextBtn');
 
         console.log('CheckoutButtons - Step:', currentStep, 'Button found:', { nextBtn: !!nextBtn });
 

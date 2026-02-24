@@ -126,7 +126,7 @@ export default async function ProductDetail(root, productId) {
       <section class="product-detail">
         <button id="back-to-shop" class="btn-link">
           <span class="back-arrow" aria-hidden="true"></span>
-          <span class="back-label">Back to shop</span>
+          <span class="back-label">Back</span>
         </button>
         <div class="product-detail-grid">
           <div class="product-media">
@@ -243,7 +243,7 @@ export default async function ProductDetail(root, productId) {
       }
     });
 
-    // Buy now - add to cart and navigate directly to checkout
+    // Buy now - go directly to checkout with item
     const buyBtn = root.querySelector('#buy-now-btn');
     buyBtn?.addEventListener('click', async () => {
       const variant = selectedVariant || variants[0];
@@ -264,41 +264,36 @@ export default async function ProductDetail(root, productId) {
         buyBtn.disabled = true;
         buyBtn.textContent = 'Processing...';
         
-        // Add to cart first
-        const result = await addToCart(variantId, qty);
-        if (result.success) {
-          // Show success toast
-          showToastNotification('Processing Order', 'Redirecting to checkout...');
-          
-          // Get cart items to set up checkout
-          const { getCart } = await import('../cart/cart.js');
-          const cartItems = await getCart();
-          
-          // Find the item we just added
-          const addedItem = cartItems.find(item => item.variant_id === parseInt(variantId));
-          
-          if (addedItem) {
-            // Set up checkout session storage (same as cart modal does)
-            sessionStorage.setItem('checkoutStep', '1'); // Start at shipping step
-            sessionStorage.setItem('checkoutItems', JSON.stringify([addedItem]));
-            
-            // Calculate summary
-            const subtotal = parseFloat(addedItem.price || 0) * addedItem.quantity;
-            const shippingFee = 0; // Will be calculated in checkout
-            sessionStorage.setItem('checkoutSummary', JSON.stringify({
-              subtotal: subtotal,
-              shipping_fee: shippingFee,
-              total: subtotal + shippingFee
-            }));
-            
-            // Navigate to checkout page
-            window.location.href = '/checkout';
-          } else {
-            alert('Item added to cart but could not proceed to checkout. Please try again.');
-          }
-        } else {
-          alert('Failed to add to cart: ' + result.message);
-        }
+        // Set up checkout session storage with item directly
+        const checkoutItem = {
+          variant_id: parseInt(variantId),
+          product_id: variant.product_id,
+          product_name: variant.product_name || product.name,
+          variant_name: variant.variant_name || variant.name || variant.variant_values,
+          price: parseFloat(variant.price || product.price),
+          quantity: qty,
+          image_url: variant.image_url || variant.img_url || product.img_url || product.image_url || product.image || (Array.isArray(product.images) && product.images[0]) || '/square.png'
+        };
+        
+        // Set up checkout session storage
+        sessionStorage.setItem('checkoutStep', '1'); // Start at shipping step
+        sessionStorage.setItem('checkoutItems', JSON.stringify([checkoutItem]));
+        
+        // Calculate summary
+        const subtotal = parseFloat(checkoutItem.price || 0) * checkoutItem.quantity;
+        const shippingFee = 0; // Will be calculated in checkout
+        sessionStorage.setItem('checkoutSummary', JSON.stringify({
+          subtotal: subtotal,
+          shipping_fee: shippingFee,
+          total: subtotal + shippingFee
+        }));
+        
+        // Show success toast
+        showToastNotification('Processing Order', 'Redirecting to checkout...');
+        
+        // Navigate to checkout page
+        window.location.href = '/checkout';
+        
       } catch (error) {
         console.error('Buy now error:', error);
         alert('Error processing order: ' + error.message);

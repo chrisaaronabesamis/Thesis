@@ -1,6 +1,8 @@
 import { api } from '../../services/ecommerce_services/config.js';
 import { getAuthToken, removeAuthToken, authHeaders } from '../../services/ecommerce_services/auth/auth.js';
 import CustomerCart from './cart/customer_cart_modal.js';
+import { showToast, showConfirmToast } from '../../utils/toast.js';
+import { BINI_API_URL } from '../../config/bini-api.js';
 
 export default function Navigation(root) {
   root.innerHTML = `
@@ -17,13 +19,19 @@ export default function Navigation(root) {
       <a href="#events" class="nav-link">Events</a>
       <a href="#announcement" class="nav-link">Announcement</a>
       <a href="/shop" class="nav-link">Shop</a>
-      <a href="http://localhost:5173/bini" class="nav-link">Community</a>
+      <a href="#community" class="nav-link">Community</a>
     </nav>
     <div class="nav-right">
       <a href="/order-history" class="nav-icon">📜</a>
       <a href="/cart" class="nav-icon">🛒</a>
       <a href="/signin" id="signinLink" class="nav-icon">👤</a>
-      <a href="#" id="logoutBtn" class="nav-icon" style="display:none">👤</a>
+      <a href="#" id="logoutBtn" class="nav-icon" style="display:none" title="Logout">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16,17 21,12 16,7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+      </a>
       
     </div>
   </header>
@@ -54,6 +62,14 @@ export default function Navigation(root) {
     const href = link.getAttribute('href') || '';
 
  
+    // Check if user is authenticated for protected routes
+    if ((href === '/shop' || href === '#community') && !isAuthenticated()) {
+      e.preventDefault();
+      showToast('You need an account to access this feature. Please sign in or sign up.', 'error');
+      window.location.href = '/signin';
+      return;
+    }
+
     if (href === '#community') {
   e.preventDefault();
 
@@ -66,7 +82,7 @@ export default function Navigation(root) {
 
     console.log("Sending headers:", headers);
 
-    const res = await fetch(api('/v1/community/enterBini'), {
+    const res = await fetch(`${BINI_API_URL}/community/enterBini`, {
       method: "GET",
       headers
     });
@@ -81,14 +97,14 @@ export default function Navigation(root) {
 
     const tempToken = body.tempToken;
     if (!tempToken) {
-      alert("❌ Backend did NOT return temp token!");
+      showToast("Backend did not return temporary token", 'error');
       return;
     }
 
-    alert("Temporary Token Generated:\n" + tempToken);
+    showToast("Temporary token generated successfully", 'success');
 
-    // Redirect to 5174 with authorization
-    window.location.href = `http://localhost:5173/?token=${encodeURIComponent(tempToken)}`;
+    // Redirect to bini community with authorization
+    window.location.href = `http://localhost:5173/bini?token=${encodeURIComponent(tempToken)}`;
 
   } catch (err) {
     console.error("Community fetch failed:", err);
@@ -163,6 +179,7 @@ export default function Navigation(root) {
       if (id === 'logoutBtn') return;
       if (!isAuthenticated()) {
         e.preventDefault();
+        showToast('You need an account to access this feature. Please sign in or sign up.', 'error');
         window.location.href = '/signin';
       }
     });
@@ -173,6 +190,11 @@ export default function Navigation(root) {
   if (cartLink) {
     cartLink.addEventListener('click', (e) => {
       e.preventDefault();
+      if (!isAuthenticated()) {
+        showToast('You need an account to access this feature. Please sign in or sign up.', 'error');
+        window.location.href = '/signin';
+        return;
+      }
       CustomerCart();
     });
   }
@@ -195,19 +217,34 @@ export default function Navigation(root) {
 
   logoutBtn?.addEventListener('click', async (e) => {
     e.preventDefault();
-    try {
-      await fetch(api('/v1/users/logout'), {
-        method: 'POST',
-        headers: Object.assign({ 'Content-Type': 'application/json' }, authHeaders()),
-        credentials: 'include'
-      });
-    } catch (err) {
-      console.error('Logout request failed', err);
-    }
+    
+    // Show toast confirmation dialog
+    showConfirmToast(
+      'Are you sure you want to log out?',
+      async () => {
+        // User confirmed logout
+        try {
+          await fetch(api('/v1/users/logout'), {
+            method: 'POST',
+            headers: Object.assign({ 'Content-Type': 'application/json' }, authHeaders()),
+            credentials: 'include'
+          });
+        } catch (err) {
+          console.error('Logout request failed', err);
+        }
 
-    removeAuthToken();
-    updateAuthLinks();
-    window.location.href = '/signin';
+        removeAuthToken();
+        updateAuthLinks();
+        showToast('You have been logged out successfully', 'success');
+        setTimeout(() => {
+          window.location.href = '/signin';
+        }, 1500);
+      },
+      () => {
+        // User cancelled logout - do nothing
+        console.log('Logout cancelled by user');
+      }
+    );
   });
 
   window.addEventListener('scroll', () => {

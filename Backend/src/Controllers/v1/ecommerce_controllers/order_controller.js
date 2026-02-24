@@ -118,6 +118,43 @@ class OrderController {
       return res.status(500).json({ success: false, message: 'Server error' });
     }
   }
+
+  // Delete order
+  async deleteOrder(req, res) {
+    try {
+      const orderId = req.params.id;
+      const userId = res.locals.userId;
+
+      if (!orderId) {
+        return res.status(400).json({ success: false, message: 'Order ID is required' });
+      }
+
+      // Check if order belongs to user
+      const order = await this.orderModel.getOrderById(orderId, userId);
+      if (!order) {
+        return res.status(404).json({ success: false, message: 'Order not found' });
+      }
+
+      // Delete order (cascade delete will handle order_items)
+      const [result] = await this.orderModel.db.execute(
+        'DELETE FROM orders WHERE order_id = ? AND user_id = ?',
+        [orderId, userId]
+      );
+
+      if (result.affectedRows === 0) {
+        return res.status(400).json({ success: false, message: 'Failed to delete order' });
+      }
+
+      return res.status(200).json({ 
+        success: true, 
+        message: 'Order deleted successfully',
+        order_id: orderId 
+      });
+    } catch (err) {
+      console.error('Delete order error:', err);
+      return res.status(500).json({ success: false, message: 'Server error' });
+    }
+  }
 }
 
 export default new OrderController();

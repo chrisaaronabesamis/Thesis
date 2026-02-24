@@ -44,48 +44,53 @@
 
 /* ======================= BACK TO SHOP BUTTON ======================= */
 #back-to-shop.btn-link {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: clamp(0.3rem, 0.8vw, 8px);
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: clamp(6px, 1.5vw, 10px);
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: clamp(6px, 1.5vw, 12px);
   padding: clamp(0.5rem, 1.2vw, 10px) clamp(0.8rem, 1.5vw, 16px);
-  color: #fff;
+  color: #000000;
   text-decoration: none;
   font-size: clamp(0.8rem, 1.5vw, 0.9rem);
   font-weight: 600;
   transition: all 0.3s ease;
   cursor: pointer;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   min-height: clamp(36px, 6vw, 44px);
   box-sizing: border-box;
-  position: absolute;
-  top: 0rem;
-  left: 0;
+  position: top;
   z-index: 101;
+  margin-bottom: 1rem;
 }
 
 #back-to-shop.btn-link:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: #e9ecef;
+  border-color: #adb5bd;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 #back-to-shop.btn-link:active {
   transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .back-arrow {
   display: inline-block;
-  width: 0;
-  height: 0;
-  border-top: clamp(3px, 0.6vw, 5px) solid transparent;
-  border-bottom: clamp(3px, 0.6vw, 5px) solid transparent;
-  border-right: clamp(6px, 1vw, 10px) solid #fff;
-  transition: transform 0.3s ease;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #000000;
+}
+
+.back-arrow::before {
+  content: "❮";
+  color: #000000;
 }
 
 #back-to-shop.btn-link:hover .back-arrow {
@@ -96,6 +101,7 @@
   white-space: nowrap;
   font-weight: 600;
   letter-spacing: 0.3px;
+  color: #000000;
 }
 
 .checkout-banner h2 {
@@ -436,6 +442,53 @@
 
 /* ======================= BUTTONS ======================= */
 
+.btn-next {
+  background: linear-gradient(135deg, #ff8fab, #ff6b9d);
+  color: white;
+  border: 2px solid #ff70b8;
+  padding: clamp(0.75rem, 1.8vw, 12px) clamp(1.5rem, 3vw, 28px);
+  margin: 0;
+  border-radius: clamp(8px, 1.5vw, 12px);
+  font-weight: 700;
+  font-size: clamp(0.875rem, 1.8vw, 1em);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: clamp(120px, 20vw, 160px);
+  letter-spacing: clamp(0.3px, 0.3vw, 0.5px);
+  min-height: clamp(44px, 7vw, 52px);
+  box-sizing: border-box;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.btn-next:hover {
+  background: linear-gradient(135deg, #ff70b8, #ff3d8b);
+  border-color: #ff3d8b;
+  color: #ffffff;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 28px rgba(255, 112, 184, 0.45), 0 4px 12px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 112, 184, 0.8);
+}
+
+.btn-next:active {
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 0 4px 16px rgba(255, 112, 184, 0.35);
+}
+
+.btn-next:disabled {
+  background: linear-gradient(135deg, #ccc, #999);
+  border-color: #666;
+  color: #666;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 .checkout-buttons-container {
   display: flex;
   justify-content: space-between;
@@ -479,9 +532,27 @@
 }
 
 #nextbtn {
-  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
-  color: #ffffff;
-  border: 2px solid transparent;
+  background: linear-gradient(135deg, #ff8fab, #ff6b9d);
+  color: white;
+  border: 2px solid #ff70b8;
+  padding: clamp(0.75rem, 1.8vw, 12px) clamp(1.5rem, 3vw, 28px);
+  margin: 0;
+  border-radius: clamp(8px, 1.5vw, 12px);
+  font-weight: 700;
+  font-size: clamp(0.875rem, 1.8vw, 1em);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: clamp(120px, 20vw, 160px);
+  letter-spacing: clamp(0.3px, 0.3vw, 0.5px);
+  min-height: clamp(44px, 7vw, 52px);
+  box-sizing: border-box;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 #nextbtn::before {
@@ -499,40 +570,31 @@
   left: 100%;
 }
 
-#backbtn {
-  background: rgba(139, 92, 246, 0.15);
-  border: 2px solid rgba(139, 92, 246, 0.6);
-  color: #e9ecef;
-  backdrop-filter: blur(8px);
-}
-
-#backbtn:not(.show) {
-  display: none;
-}
-
 #nextbtn:hover {
-  background: linear-gradient(135deg, #9f7aea 0%, #8b5cf6 50%, #7c3aed 100%);
+  background: linear-gradient(135deg, #ff70b8, #ff3d8b);
+  border-color: #ff3d8b;
+  color: #ffffff;
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 8px 28px rgba(139, 92, 246, 0.45), 0 4px 12px rgba(0, 0, 0, 0.3);
-  border-color: rgba(139, 92, 246, 0.8);
+  box-shadow: 0 8px 28px rgba(255, 112, 184, 0.45), 0 4px 12px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 112, 184, 0.8);
 }
 
 #nextbtn:active {
   transform: translateY(-1px) scale(1.01);
-  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.35);
+  box-shadow: 0 4px 16px rgba(255, 112, 184, 0.35);
 }
 
 #backbtn:hover {
-  background: rgba(139, 92, 246, 0.35);
-  border-color: rgba(139, 92, 246, 0.9);
+  background: rgba(255, 112, 184, 0.35);
+  border-color: rgba(255, 112, 184, 0.9);
   color: #ffffff;
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(255, 112, 184, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 #backbtn:active {
   transform: translateY(-1px) scale(1.01);
-  background: rgba(139, 92, 246, 0.4);
+  background: rgba(255, 112, 184, 0.4);
 }
 
 /* ======================= RESPONSIVE ======================= */
