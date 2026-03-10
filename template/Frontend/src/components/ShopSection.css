@@ -1,0 +1,132 @@
+/* Basic shop layout styles for ShopSection component */
+:root{
+  --shop-gap: 16px;
+  --card-bg: #ffffff; /* neutral white cards */
+  --bg-muted: #f6f7f9; /* soft page background */
+  --muted: #4b5563; /* stronger muted text */
+  --primary: #1f2937; /* dark neutral primary for strong contrast */
+  --accent: #0b6b4f; /* subtle accent for primary CTAs */
+  --soft-btn-bg: #f3f4f6;
+  --card-border: #e6e9ee;
+}
+
+.panel{padding:20px}
+.shop-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.shop-head h2{margin:0}
+.shop-head .muted{color:var(--muted)}
+.shop-hero{background:var(--bg-muted);padding:28px;border-radius:10px;color:#111827;text-align:center;max-width:980px;margin:8px auto 20px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
+.shop-hero-inner{max-width:920px;margin:0 auto}
+.shop-hero h1{margin:0 0 8px;font-size:20px}
+.shop-hero .muted{margin:0}
+.shop-hero h2{margin:0 0 8px}
+.shop-head .muted{color:var(--muted)}
+.shop-head-actions a{margin-left:8px}
+
+.shop-layout{display:block}
+.shop-main{max-width:1200px;margin:0 auto}
+
+.shop-collections{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.shop-collections button{background:var(--soft-btn-bg);border:1px solid #e5e7eb;padding:6px 10px;border-radius:6px;cursor:pointer;color:#111827}
+.shop-collections button.active{background:var(--primary);color:#fff;border-color:transparent}
+
+/* New collection grid (image cards) */
+.collections-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;align-items:start;max-width:1000px;margin:18px auto}
+.collection-card{background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));border-radius:12px;overflow:hidden;border:1px solid var(--card-border);padding:12px;display:flex;flex-direction:column;align-items:center;cursor:pointer;text-align:center;box-shadow:0 6px 20px rgba(17,24,39,0.04)}
+.collection-card img{width:100%;height:160px;object-fit:cover;border-radius:8px;background:#fff}
+.collection-card .collection-name{padding:8px 12px;font-weight:600;color:var(--primary)}
+.collection-card.active{box-shadow:0 8px 26px rgba(17,24,39,0.06);border-color:transparent}
+
+/* Center product grid and constrain width */
+.product-grid-centered{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--shop-gap)}
+
+/* Collection section with preview products */
+.collections-sections{display:flex;flex-direction:column;gap:28px;max-width:1100px;margin:0 auto}
+.collection-section{display:flex;flex-direction:column;gap:12px;align-items:center}
+.collection-header{display:flex;flex-direction:column;align-items:center;cursor:pointer}
+.collection-header-image{width:220px;height:120px;object-fit:cover;border-radius:8px}
+.collection-header-title{margin:8px 0 0}
+.collection-card{width:220px;flex:0 0 220px}
+.small-product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;flex:1;width:100%}
+.product-card.small{padding:8px}
+.product-card.small img{height:100px}
+.product-card.small h3{font-size:13px}
+.product-card.small .muted{font-size:12px}
+
+.shop-toolbar input[type="text"], .shop-toolbar select{padding:8px;border:1px solid #e5e7eb;border-radius:6px}
+
+.products-panel{background:var(--bg-muted);padding:26px;border-radius:14px;margin-top:32px;border:1px solid rgba(0,0,0,0.03)}
+.products-title{font-weight:700;text-align:center;color:var(--primary);margin-bottom:12px}
+.products-controls{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:0 12px 12px}
+.filter-pills{display:flex;gap:8px;align-items:center}
+.pill{background:var(--card-bg);padding:6px 14px;border-radius:20px;border:1px solid var(--card-border);color:var(--muted);cursor:pointer}
+.pill.active{background:var(--accent);color:#fff;border-color:transparent}
+.sort-block select{padding:8px;border-radius:6px;border:1px solid var(--card-border)}
+.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:18px}
+.product-card{background:var(--card-bg);border-radius:10px;overflow:hidden;padding:12px;box-shadow:0 6px 18px rgba(17,24,39,0.04);display:flex;flex-direction:column;border:1px solid var(--card-border)}
+.product-card img{width:100%;height:220px;object-fit:cover;border-radius:8px;margin-bottom:10px}
+.product-card h3{margin:6px 0;text-align:center;color:var(--primary);font-size:15px}
+.product-card .muted{text-align:center;color:var(--muted);margin-bottom:6px}
+.product-card .soft-btn, button.soft-btn, a.soft-btn{
+  background:var(--soft-btn-bg);
+  border:1px solid var(--card-border);
+  padding:8px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  text-decoration:none;
+  color:var(--primary); /* dark text for readability */
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.product-card .soft-btn:hover{background:#eef2ff}
+
+/* Primary variant for strong CTAs */
+.soft-btn.primary, .shop-cart-modal-actions a.primary{background:var(--accent);color:#fff;border-color:transparent}
+.soft-btn[disabled], button.soft-btn[disabled]{opacity:0.55;cursor:not-allowed}
+
+/* Focus state for accessibility */
+.soft-btn:focus, button.soft-btn:focus, a.soft-btn:focus{outline:3px solid rgba(37,99,235,0.18);outline-offset:2px}
+
+/* Cart drawer styles */
+.shop-cart-modal{width:380px;max-width:100%;}
+.shop-cart-backdrop{background:transparent;border:none}
+
+/* Right-side cart drawer */
+.cart-drawer-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.35);opacity:0;pointer-events:none;transition:opacity .22s ease}
+.cart-drawer-backdrop.open{opacity:1;pointer-events:auto}
+.cart-drawer{position:fixed;right:-420px;top:0;height:100vh;width:380px;background:var(--card-bg);box-shadow:-8px 0 30px rgba(8,15,30,0.18);transition:right .28s cubic-bezier(.2,.9,.2,1);z-index:60;display:flex;flex-direction:column}
+.cart-drawer.open{right:0}
+.cart-drawer-header{padding:16px;border-bottom:1px solid var(--card-border);display:flex;justify-content:space-between;align-items:center}
+.cart-drawer-body{padding:12px;overflow:auto;flex:1}
+.cart-drawer-footer{padding:12px;border-top:1px solid var(--card-border);display:flex;gap:8px;justify-content:flex-end}
+.close-btn{background:transparent;border:1px solid var(--card-border);padding:6px 8px;border-radius:6px;cursor:pointer}
+.shop-cart-modal .section-row{display:flex;justify-content:space-between;align-items:center}
+.cart-row{padding:8px 0;border-bottom:1px solid #f3f4f6}
+.shop-cart-modal-actions a{background:var(--primary);color:#fff;padding:8px 10px;border-radius:6px;text-decoration:none}
+
+/* Checkout panels */
+.shop-subpage{max-width:900px;margin:0 auto}
+.checkout-panel{background:var(--card-bg);padding:16px;border-radius:8px;border:1px solid var(--card-border)}
+.checkout-form input, .checkout-form select{display:block;width:100%;padding:8px;margin:8px 0;border:1px solid #e5e7eb;border-radius:6px}
+.payment-radio-group label{display:block;margin:6px 0}
+
+/* Responsive */
+@media (max-width:900px){
+  .product-grid{grid-template-columns:repeat(2,1fr)}
+  .shop-cart-modal{width:320px}
+  .small-product-grid{grid-template-columns:repeat(2,1fr);overflow-x:auto}
+}
+@media (max-width:600px){
+  .product-grid{grid-template-columns:1fr}
+  .shop-head{flex-direction:column;align-items:flex-start;gap:8px}
+  .shop-head-actions{display:flex}
+}
+.products-panel{background:#fafafa;padding:22px;border-radius:10px;margin-top:24px;border:1px solid #e6e7eb}
+.products-title{font-weight:700;text-align:center;color:#111827;margin-bottom:12px}
+.filter-pills{display:flex;gap:8px;justify-content:center;margin:8px 0 16px}
+.filter-pills button{background:#fff;padding:6px 12px;border-radius:16px;border:1px solid #e6e7eb;color:#374151;cursor:pointer}
+.filter-pills button.active{background:#e6e7eb;color:#111}
+.product-card{background:#fff;border-radius:8px;overflow:hidden;border:1px solid #e6e7eb;padding:12px;box-shadow:0 6px 18px rgba(0,0,0,0.04);display:flex;flex-direction:column}
+.product-card img{width:100%;height:160px;object-fit:cover;border-radius:6px;margin-bottom:8px}
+.product-card h3{margin:6px 0;text-align:center;color:#111827}
+.product-card .muted{text-align:center;color:#6b7280}
